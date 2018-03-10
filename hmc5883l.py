@@ -50,14 +50,14 @@ yOffset = float(167);
 
 while True:
 
-	XAxis = (float(wpi.wiringPiI2CReadReg16(a,0x03)) - xOffset) * mgPerDigit;
-	YAxis = (float(wpi.wiringPiI2CReadReg16(a,0x07)) - yOffset) * mgPerDigit;
-	ZAxis = float(wpi.wiringPiI2CReadReg16(a,0x05)) * mgPerDigit;
+	XAxis = (float(wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)) - xOffset) * mgPerDigit;
+	YAxis = (float(wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)) - yOffset) * mgPerDigit;
+	ZAxis = float(wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)) * mgPerDigit;
 
 
 	heading = math.atan2(YAxis, XAxis);
 	declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
-	heading = heading + declinationAngle;
+	heading = heading + declinationAngle;//change to BG6.
 
 
 	if (heading < 0):
@@ -74,4 +74,4 @@ while True:
 	print headingDegrees
 
 
-	time.delay(100)
+	time.sleep(0.1)
