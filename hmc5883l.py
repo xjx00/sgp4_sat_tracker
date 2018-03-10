@@ -52,12 +52,18 @@ while True:
 
 	XAxis = (float(wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)) - xOffset) * mgPerDigit;
 	YAxis = (float(wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)) - yOffset) * mgPerDigit;
-	ZAxis = float(wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)) * mgPerDigit;
+	ZAxis =  float(wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)) * mgPerDigit;
 
+  	if XAxis>32768:    
+    	XAxis = -(0xFFFF - XAxis + 1);
+    if YAxis>32768:
+    	YAxis = -(0xFFFF - YAxis + 1);
+    if ZAxis>32768:
+    	ZAxis = -(0xFFFF - ZAxis + 1);
 
 	heading = math.atan2(YAxis, XAxis);
-	declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
-	heading = heading + declinationAngle;#change to BG6.
+	#declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
+	#heading = heading + declinationAngle;#change to BG6.
 
 
 	if (heading < 0):
