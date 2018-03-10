@@ -48,7 +48,7 @@ yOffset = float(167);
 
 	#compass
 
-while True
+while True:
 
 	XAxis = (float(wpi.wiringPiI2CReadReg16(a,0x03)) - xOffset) * mgPerDigit;
 	YAxis = (float(wpi.wiringPiI2CReadReg16(a,0x07)) - yOffset) * mgPerDigit;
