@@ -57,7 +57,7 @@ while True:
 
 	heading = math.atan2(YAxis, XAxis);
 	declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
-	heading = heading + declinationAngle;//change to BG6.
+	heading = heading + declinationAngle;#change to BG6.
 
 
 	if (heading < 0):
