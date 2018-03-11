@@ -7,7 +7,6 @@ import time
 
 a=wpi.wiringPiI2CSetup(0x1e)
 
-
 	#set range
 wpi.wiringPiI2CWriteReg8(a,0x01, 0b001 << 5);
 mgPerDigit = float(0.92);
@@ -49,21 +48,39 @@ yOffset = float(167);
 	#compass
 
 while True:
+        
 
-	XAxis = (float(wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)) - xOffset) * mgPerDigit;
-	YAxis = (float(wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)) - yOffset) * mgPerDigit;
-	ZAxis =  float(wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)) * mgPerDigit;
 
-  	if XAxis>32768:    
-    	XAxis = -(0xFFFF - XAxis + 1);
-    if YAxis>32768:
-    	YAxis = -(0xFFFF - YAxis + 1);
-    if ZAxis>32768:
-    	ZAxis = -(0xFFFF - ZAxis + 1);
+#        x=wpi.wiringPiI2CReadReg8(a,0x03) << 8 | wpi.wiringPiI2CReadReg8(a,0x04);
+#        if x >> 15 ==1 :
+#            XAxis = float(256*256-x-xOffset) * mgPerDigit;
+#            print "Diao"
+#        else:
+#            XAxis = float(x - xOffset) * mgPerDigit;
+        X=wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)
+        Y=wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)
+        Z=wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)
+
+        if X>32768:    
+            X = -(0xFFFF - X + 1);
+        if Y>32768:
+            Y = -(0xFFFF - Y + 1);
+        if Z>32768:
+            Z = -(0xFFFF - Z + 1);
+                                                                    
+        XAxis = (float(X) - xOffset) * mgPerDigit;
+        YAxis = (float(Y) - yOffset) * mgPerDigit;
+        ZAxis =  float(Z) * mgPerDigit;
+        print "X="
+        print XAxis
+        print "Y="
+        print YAxis
 
 	heading = math.atan2(YAxis, XAxis);
-	#declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
-	#heading = heading + declinationAngle;#change to BG6.
+        print "atan2="
+        print heading
+        declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
+	heading = heading + declinationAngle;#change to BG6.
 
 
 	if (heading < 0):
