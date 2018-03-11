@@ -50,13 +50,6 @@ yOffset = float(167);
 while True:
         
 
-
-#        x=wpi.wiringPiI2CReadReg8(a,0x03) << 8 | wpi.wiringPiI2CReadReg8(a,0x04);
-#        if x >> 15 ==1 :
-#            XAxis = float(256*256-x-xOffset) * mgPerDigit;
-#            print "Diao"
-#        else:
-#            XAxis = float(x - xOffset) * mgPerDigit;
         X=wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)
         Y=wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)
         Z=wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)
@@ -71,6 +64,7 @@ while True:
         XAxis = (float(X) - xOffset) * mgPerDigit;
         YAxis = (float(Y) - yOffset) * mgPerDigit;
         ZAxis =  float(Z) * mgPerDigit;
+
         print "X="
         print XAxis
         print "Y="
@@ -80,6 +74,7 @@ while True:
         print "atan2="
         print heading
         declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
+        
 	heading = heading + declinationAngle;#change to BG6.
 
 
