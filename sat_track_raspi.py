@@ -21,6 +21,8 @@ line2 = ('2 00005  34.2682 348.7242 1859667 '
 satellite = twoline2rv(line1, line2, wgs72)
 
 position, velocity = satellite.propagate(2011, 7, 18, 3, 03, 49)
+
+
 #	position	X(km) Y(km) Z(km)
 #	velocity	Vx(km/s) Vy(km/s) Vz(km/s)
 #	TEME2ECEF

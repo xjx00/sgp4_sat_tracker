@@ -4,92 +4,98 @@ import wiringpi as wpi
 import math
 import time
 
+class HMC5883L:
+    def init(self):
 
-a=wpi.wiringPiI2CSetup(0x1e)
+        global a
 
-	#set range
-wpi.wiringPiI2CWriteReg8(a,0x01, 0b001 << 5);
-mgPerDigit = float(0.92);
+        a=wpi.wiringPiI2CSetup(0x1e)
 
-
-	#setMeasurementMode
-
-value = wpi.wiringPiI2CReadReg8(a,0x02);
-value &= 0b11111100;
-value |= 0b00;	
-
-wpi.wiringPiI2CWriteReg8(a,0x02, value);
+        	#set range
+        wpi.wiringPiI2CWriteReg8(a,0x01, 0b001 << 5);
+        global mgPerDigit
+        mgPerDigit = float(0.92);
 
 
-	#setDataRate
+        	#setMeasurementMode
 
-value = wpi.wiringPiI2CReadReg8(a,0x00);
-value &= 0b11100011;
-value |= (0b101 << 2);	
+        value = wpi.wiringPiI2CReadReg8(a,0x02);
+        value &= 0b11111100;
+        value |= 0b00;	
 
-wpi.wiringPiI2CWriteReg8(a,0x00, value);
-
-
-	#setSamples
-
-value = wpi.wiringPiI2CReadReg8(a,0x00);
-value &= 0b10011111;
-value |= (0b11 << 5);
-
-wpi.wiringPiI2CWriteReg8(a,0x00, value);
+        wpi.wiringPiI2CWriteReg8(a,0x02, value);
 
 
-	#setOffset
+        	#setDataRate
 
-xOffset = float(141);
-yOffset = float(167);
+        value = wpi.wiringPiI2CReadReg8(a,0x00);
+        value &= 0b11100011;
+        value |= (0b101 << 2);	
 
-
-	#compass
-
-while True:
-        
-
-        X=wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)
-        Y=wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)
-        Z=wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)
-
-        if X>32768:    
-            X = -(0xFFFF - X + 1);
-        if Y>32768:
-            Y = -(0xFFFF - Y + 1);
-        if Z>32768:
-            Z = -(0xFFFF - Z + 1);
-                                                                    
-        XAxis = (float(X) - xOffset) * mgPerDigit;
-        YAxis = (float(Y) - yOffset) * mgPerDigit;
-        ZAxis =  float(Z) * mgPerDigit;
-
-        print "X="
-        print XAxis
-        print "Y="
-        print YAxis
-
-	heading = math.atan2(YAxis, XAxis);
-        print "atan2="
-        print heading
-        declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
-        
-	heading = heading + declinationAngle;#change to BG6.
+        wpi.wiringPiI2CWriteReg8(a,0x00, value);
 
 
-	if (heading < 0):
-		heading += 2 * math.pi;
+        	#setSamples
 
-	if (heading > 2 * math.pi):
-		heading -= 2 * math.pi;
+        value = wpi.wiringPiI2CReadReg8(a,0x00);
+        value &= 0b10011111;
+        value |= (0b11 << 5);
 
-
-	headingDegrees = heading * 180/math.pi;
-
-
-	print " Degress = "
-	print headingDegrees
+        wpi.wiringPiI2CWriteReg8(a,0x00, value);
 
 
-	time.sleep(0.1)
+        	#setOffset
+        global xOffset
+        global yOffset
+
+        xOffset = float(141);
+        yOffset = float(167);
+
+
+    	#compass
+
+    def read(self):
+            
+
+            X=wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)
+            Y=wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)
+            Z=wpi.wiringPiI2CReadReg8(a,0x05) << 8  | wpi.wiringPiI2CReadReg8(a,0x06)
+
+            if X>32768:    
+                X = -(0xFFFF - X + 1);
+            if Y>32768:
+                Y = -(0xFFFF - Y + 1);
+            if Z>32768:
+                Z = -(0xFFFF - Z + 1);
+                                                                        
+            XAxis = (float(X) - xOffset) * mgPerDigit;
+            YAxis = (float(Y) - yOffset) * mgPerDigit;
+            ZAxis =  float(Z) * mgPerDigit;
+
+            #print "X="
+            #print XAxis
+            #print "Y="
+            #print YAxis
+            global heading
+            heading = math.atan2(YAxis, XAxis);
+
+            #print "atan2="
+            #print heading
+            global	declinationAngle
+            declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
+            
+            heading = heading + declinationAngle;#change to BG6.
+
+
+            if (heading < 0):
+                heading += 2 * math.pi;
+
+            if (heading > 2 * math.pi):
+                heading -= 2 * math.pi;
+
+            global headingDegress
+
+            headingDegress = heading * 180/math.pi;
+            float(headingDegress)
+            return headingDegress
+
