@@ -55,16 +55,20 @@ class MMA8452Q():
 	def init(self):
 
 		global b
-
 		b=wpi.wiringPiI2CSetup(0x1c)
 
+		self.mode_configuration()
+		self.data_configuration()
 
-		#	mode_data_configuration
+	def mode_configuration(self):
+		"""Select the Control Register-1 configuration of the accelerometer from the given provided values"""
 		MODE_CONFIG = (MMA8452Q_ODR_800 | MMA8452Q_MODE_NORMAL | MMA8452Q_MODE_ACTIVE)
-		wpi.wiringPiI2CWriteReg8(MMA8452Q_DEFAULT_ADDRESS, MMA8452Q_REG_CTRL_REG1, MODE_CONFIG)
-
+		wpi.wiringPiI2CWriteReg8(b, MMA8452Q_REG_CTRL_REG1, MODE_CONFIG)
+	
+	def data_configuration(self):
+		"""Select the Data Configuration Register configuration of the accelerometer from the given provided values"""
 		DATA_CONFIG = (MMA8452Q_DATA_CFG_FS_2)
-		wpi.wiringPiI2CWriteReg8(MMA8452Q_DEFAULT_ADDRESS, MMA8452Q_REG_XYZ_DATA_CFG, DATA_CONFIG)
+		wpi.wiringPiI2CWriteReg8(b, MMA8452Q_REG_XYZ_DATA_CFG, DATA_CONFIG)
 
 	
 	def read(self):
