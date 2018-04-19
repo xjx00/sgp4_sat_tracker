@@ -1,4 +1,14 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import math
+
+class Eci(object):
+	position=[]
+	velocity=[]
+
 def GetLook(date,eciSat,Site):
+	eciSite = Eci()
 	lat = Site.Position[0];
 	lon = Site.Position[1];
 	alt = Site.Position[2];
