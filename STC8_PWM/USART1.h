@@ -11,14 +11,14 @@
 #define	USART1	1
 #define	USART2	2
 
-#define	UART_ShiftRight	0		//Í¬²½ÒÆÎ»Êä³ö
-#define	UART_8bit_BRTx	(1<<6)	//8Î»Êý¾Ý,¿É±ä²¨ÌØÂÊ
-#define	UART_9bit		(2<<6)	//9Î»Êý¾Ý,¹Ì¶¨²¨ÌØÂÊ
-#define	UART_9bit_BRTx	(3<<6)	//9Î»Êý¾Ý,¿É±ä²¨ÌØÂÊ
+#define	UART_ShiftRight	0		//åŒæ­¥ç§»ä½è¾“å‡º
+#define	UART_8bit_BRTx	(1<<6)	//8ä½æ•°æ®,å¯å˜æ³¢ç‰¹çŽ‡
+#define	UART_9bit		(2<<6)	//9ä½æ•°æ®,å›ºå®šæ³¢ç‰¹çŽ‡
+#define	UART_9bit_BRTx	(3<<6)	//9ä½æ•°æ®,å¯å˜æ³¢ç‰¹çŽ‡
 
 #define	UART1_SW_P30_P31	0
 #define	UART1_SW_P36_P37	(1<<6)
-#define	UART1_SW_P16_P17	(2<<6)	//±ØÐëÊ¹ÓÃÄÚ²¿Ê±ÖÓ
+#define	UART1_SW_P16_P17	(2<<6)	//å¿…é¡»ä½¿ç”¨å†…éƒ¨æ—¶é’Ÿ
 #define	UART2_SW_P10_P11	0
 #define	UART2_SW_P46_P47	1
 
@@ -31,45 +31,45 @@
 
 typedef struct
 { 
-	u8	id;				//´®¿ÚºÅ
+	u8	id;				//ä¸²å£å·
 
-	u8	TX_read;		//·¢ËÍ¶ÁÖ¸Õë
-	u8	TX_write;		//·¢ËÍÐ´Ö¸Õë
-	u8	B_TX_busy;		//Ã¦±êÖ¾
+	u8	TX_read;		//å‘é€è¯»æŒ‡é’ˆ
+	u8	TX_write;		//å‘é€å†™æŒ‡é’ˆ
+	u8	B_TX_busy;		//å¿™æ ‡å¿—
 
-	u8 	RX_Cnt;			//½ÓÊÕ×Ö½Ú¼ÆÊý
-	u8	RX_TimeOut;		//½ÓÊÕ³¬Ê±
-	u8	B_RX_OK;		//½ÓÊÕ¿éÍê³É
+	u8 	RX_Cnt;			//æŽ¥æ”¶å­—èŠ‚è®¡æ•°
+	u8	RX_TimeOut;		//æŽ¥æ”¶è¶…æ—¶
+	u8	B_RX_OK;		//æŽ¥æ”¶å—å®Œæˆ
 } COMx_Define; 
 
 typedef struct
 { 
-	u8	UART_Mode;			//Ä£Ê½,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-	u8	UART_BRT_Use;		//Ê¹ÓÃ²¨ÌØÂÊ,   BRT_Timer1,BRT_Timer2
-	u32	UART_BaudRate;		//²¨ÌØÂÊ,       ENABLE,DISABLE
-	u8	Morecommunicate;	//¶à»úÍ¨Ñ¶ÔÊÐí, ENABLE,DISABLE
-	u8	UART_RxEnable;		//ÔÊÐí½ÓÊÕ,   ENABLE,DISABLE
-	u8	BaudRateDouble;		//²¨ÌØÂÊ¼Ó±¶, ENABLE,DISABLE
-	u8	UART_Interrupt;		//ÖÐ¶Ï¿ØÖÆ,   ENABLE,DISABLE
-	u8	UART_Polity;		//ÓÅÏÈ¼¶,     PolityLow,PolityHigh
-	u8	UART_P_SW;			//ÇÐ»»¶Ë¿Ú,   UART1_SW_P30_P31,UART1_SW_P36_P37,UART1_SW_P16_P17(±ØÐëÊ¹ÓÃÄÚ²¿Ê±ÖÓ)
-	u8	UART_RXD_TXD_Short;	//ÄÚ²¿¶ÌÂ·RXDÓëTXD, ×öÖÐ¼Ì, ENABLE,DISABLE
+	u8	UART_Mode;			//æ¨¡å¼,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+	u8	UART_BRT_Use;		//ä½¿ç”¨æ³¢ç‰¹çŽ‡,   BRT_Timer1,BRT_Timer2
+	u32	UART_BaudRate;		//æ³¢ç‰¹çŽ‡,       ENABLE,DISABLE
+	u8	Morecommunicate;	//å¤šæœºé€šè®¯å…è®¸, ENABLE,DISABLE
+	u8	UART_RxEnable;		//å…è®¸æŽ¥æ”¶,   ENABLE,DISABLE
+	u8	BaudRateDouble;		//æ³¢ç‰¹çŽ‡åŠ å€, ENABLE,DISABLE
+	u8	UART_Interrupt;		//ä¸­æ–­æŽ§åˆ¶,   ENABLE,DISABLE
+	u8	UART_Polity;		//ä¼˜å…ˆçº§,     PolityLow,PolityHigh
+	u8	UART_P_SW;			//åˆ‡æ¢ç«¯å£,   UART1_SW_P30_P31,UART1_SW_P36_P37,UART1_SW_P16_P17(å¿…é¡»ä½¿ç”¨å†…éƒ¨æ—¶é’Ÿ)
+	u8	UART_RXD_TXD_Short;	//å†…éƒ¨çŸ­è·¯RXDä¸ŽTXD, åšä¸­ç»§, ENABLE,DISABLE
 
 } COMx_InitDefine; 
 
 extern	COMx_Define	COM1,COM2;
-extern	u8	idata TX1_Buffer[COM_TX1_Lenth];	//·¢ËÍ»º³å
-extern	u8 	idata RX1_Buffer[COM_RX1_Lenth];	//½ÓÊÕ»º³å
-extern	u8	xdata TX2_Buffer[COM_TX2_Lenth];	//·¢ËÍ»º³å
-extern	u8 	xdata RX2_Buffer[COM_RX2_Lenth];	//½ÓÊÕ»º³å
+extern	u8	idata TX1_Buffer[COM_TX1_Lenth];	//å‘é€ç¼“å†²
+extern	u8 	idata RX1_Buffer[COM_RX1_Lenth];	//æŽ¥æ”¶ç¼“å†²
+extern	u8	xdata TX2_Buffer[COM_TX2_Lenth];	//å‘é€ç¼“å†²
+extern	u8 	xdata RX2_Buffer[COM_RX2_Lenth];	//æŽ¥æ”¶ç¼“å†²
 
 u8	USART_Configuration(u8 UARTx, COMx_InitDefine *COMx);
-void TX1_write2buff(u8 dat);	//Ð´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
-void TX2_write2buff(u8 dat);	//Ð´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
+void TX1_write2buff(u8 dat);	//å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
+void TX2_write2buff(u8 dat);	//å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
 void PrintString1(u8 *puts);
 void PrintString2(u8 *puts);
 
-//void COMx_write2buff(COMx_Define *COMx, u8 dat);	//Ð´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
+//void COMx_write2buff(COMx_Define *COMx, u8 dat);	//å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
 //void PrintString(COMx_Define *COMx, u8 *puts);
 
 #endif

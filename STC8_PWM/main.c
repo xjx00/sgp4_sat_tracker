@@ -3,54 +3,54 @@
 #include	"delay.h"
 #include	"timer.h"
 
-/*************	¹¦ÄÜËµÃ÷	**************
+/*************	åŠŸèƒ½è¯´æ˜	**************
 
-Ë«´®¿ÚÈ«Ë«¹¤ÖĞ¶Ï·½Ê½ÊÕ·¢Í¨Ñ¶³ÌĞò¡£
+åŒä¸²å£å…¨åŒå·¥ä¸­æ–­æ–¹å¼æ”¶å‘é€šè®¯ç¨‹åºã€‚
 
-Í¨¹ıPCÏòMCU·¢ËÍÊı¾İ, MCUÊÕµ½ºóÍ¨¹ı´®¿Ú°ÑÊÕµ½µÄÊı¾İÔ­Ñù·µ»Ø.
+é€šè¿‡PCå‘MCUå‘é€æ•°æ®, MCUæ”¶åˆ°åé€šè¿‡ä¸²å£æŠŠæ”¶åˆ°çš„æ•°æ®åŸæ ·è¿”å›.
 
 ******************************************/
 
-/*************	±¾µØ³£Á¿ÉùÃ÷	**************/
-#define		PWM_DUTY		6000			//¶¨ÒåPWMµÄÖÜÆÚ£¬ÊıÖµÎªÊ±ÖÓÖÜÆÚÊı£¬¼ÙÈçÊ¹ÓÃ24.576MHZµÄÖ÷Æµ£¬ÔòPWMÆµÂÊÎª6000HZ¡£
+/*************	æœ¬åœ°å¸¸é‡å£°æ˜	**************/
+#define		PWM_DUTY		6000			//å®šä¹‰PWMçš„å‘¨æœŸï¼Œæ•°å€¼ä¸ºæ—¶é’Ÿå‘¨æœŸæ•°ï¼Œå‡å¦‚ä½¿ç”¨24.576MHZçš„ä¸»é¢‘ï¼Œåˆ™PWMé¢‘ç‡ä¸º6000HZã€‚
 
-#define		PWM_HIGH_MIN	32				//ÏŞÖÆPWMÊä³öµÄ×îĞ¡Õ¼¿Õ±È¡£ÓÃ»§ÇëÎğĞŞ¸Ä¡£
-#define		PWM_HIGH_MAX	(PWM_DUTY-PWM_HIGH_MIN)	//ÏŞÖÆPWMÊä³öµÄ×î´óÕ¼¿Õ±È¡£ÓÃ»§ÇëÎğĞŞ¸Ä¡£
+#define		PWM_HIGH_MIN	32				//é™åˆ¶PWMè¾“å‡ºçš„æœ€å°å ç©ºæ¯”ã€‚ç”¨æˆ·è¯·å‹¿ä¿®æ”¹ã€‚
+#define		PWM_HIGH_MAX	(PWM_DUTY-PWM_HIGH_MIN)	//é™åˆ¶PWMè¾“å‡ºçš„æœ€å¤§å ç©ºæ¯”ã€‚ç”¨æˆ·è¯·å‹¿ä¿®æ”¹ã€‚
 
-/*************	±¾µØ±äÁ¿ÉùÃ÷	**************/
+/*************	æœ¬åœ°å˜é‡å£°æ˜	**************/
 
 double omega_x,omega_y;
 
-/*************	±¾µØº¯ÊıÉùÃ÷	**************/
+/*************	æœ¬åœ°å‡½æ•°å£°æ˜	**************/
 
 
 
-/************************ ¶¨Ê±Æ÷ÅäÖÃ ****************************/
-void	Timer_config(void) //³õÊ¼»¯Timer0	  Timer0,Timer1,Timer2
+/************************ å®šæ—¶å™¨é…ç½® ****************************/
+void	Timer_config(void) //åˆå§‹åŒ–Timer0	  Timer0,Timer1,Timer2
 {
 	
 	
-	TIM_InitTypeDef		TIM_InitStructure;					//½á¹¹¶¨Òå
+	TIM_InitTypeDef		TIM_InitStructure;					//ç»“æ„å®šä¹‰
 	
 	
 	
-	TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;	//Ö¸¶¨¹¤×÷Ä£Ê½,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-	TIM_InitStructure.TIM_Polity    = PolityHigh;			//Ö¸¶¨ÖĞ¶ÏÓÅÏÈ¼¶, PolityHigh,PolityLow
-	TIM_InitStructure.TIM_Interrupt = ENABLE;				//ÖĞ¶ÏÊÇ·ñÔÊĞí,   ENABLE»òDISABLE
-	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;			//Ö¸¶¨Ê±ÖÓÔ´,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-	TIM_InitStructure.TIM_ClkOut    = ENABLE;				//ÊÇ·ñÊä³ö¸ßËÙÂö³å, ENABLE»òDISABLE
-	TIM_InitStructure.TIM_Value     = 65536UL - PWM_HIGH_MIN;	//³õÖµ,
-	TIM_InitStructure.TIM_Run       = ENABLE;				//ÊÇ·ñ³õÊ¼»¯ºóÆô¶¯¶¨Ê±Æ÷, ENABLE»òDISABLE
-	Timer_Inilize(Timer0,&TIM_InitStructure);				//³õÊ¼»¯Timer0	  Timer0,Timer1,Timer2
+	TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;	//æŒ‡å®šå·¥ä½œæ¨¡å¼,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+	TIM_InitStructure.TIM_Polity    = PolityHigh;			//æŒ‡å®šä¸­æ–­ä¼˜å…ˆçº§, PolityHigh,PolityLow
+	TIM_InitStructure.TIM_Interrupt = ENABLE;				//ä¸­æ–­æ˜¯å¦å…è®¸,   ENABLEæˆ–DISABLE
+	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;			//æŒ‡å®šæ—¶é’Ÿæº,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+	TIM_InitStructure.TIM_ClkOut    = ENABLE;				//æ˜¯å¦è¾“å‡ºé«˜é€Ÿè„‰å†², ENABLEæˆ–DISABLE
+	TIM_InitStructure.TIM_Value     = 65536UL - PWM_HIGH_MIN;	//åˆå€¼,
+	TIM_InitStructure.TIM_Run       = ENABLE;				//æ˜¯å¦åˆå§‹åŒ–åå¯åŠ¨å®šæ—¶å™¨, ENABLEæˆ–DISABLE
+	Timer_Inilize(Timer0,&TIM_InitStructure);				//åˆå§‹åŒ–Timer0	  Timer0,Timer1,Timer2
 
-					//½á¹¹¶¨Òå
-	TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;	//Ö¸¶¨¹¤×÷Ä£Ê½,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-	TIM_InitStructure.TIM_Polity    = PolityHigh;			//Ö¸¶¨ÖĞ¶ÏÓÅÏÈ¼¶, PolityHigh,PolityLow
-	TIM_InitStructure.TIM_Interrupt = ENABLE;				//ÖĞ¶ÏÊÇ·ñÔÊĞí,   ENABLE»òDISABLE
-	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;			//Ö¸¶¨Ê±ÖÓÔ´,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-	TIM_InitStructure.TIM_ClkOut    = ENABLE;				//ÊÇ·ñÊä³ö¸ßËÙÂö³å, ENABLE»òDISABLE
-	TIM_InitStructure.TIM_Value     = 65536UL - PWM_HIGH_MIN;	//³õÖµ,
-	TIM_InitStructure.TIM_Run       = ENABLE;				//ÊÇ·ñ³õÊ¼»¯ºóÆô¶¯¶¨Ê±Æ÷, ENABLE»òDISABLE
+					//ç»“æ„å®šä¹‰
+	TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;	//æŒ‡å®šå·¥ä½œæ¨¡å¼,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+	TIM_InitStructure.TIM_Polity    = PolityHigh;			//æŒ‡å®šä¸­æ–­ä¼˜å…ˆçº§, PolityHigh,PolityLow
+	TIM_InitStructure.TIM_Interrupt = ENABLE;				//ä¸­æ–­æ˜¯å¦å…è®¸,   ENABLEæˆ–DISABLE
+	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;			//æŒ‡å®šæ—¶é’Ÿæº,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+	TIM_InitStructure.TIM_ClkOut    = ENABLE;				//æ˜¯å¦è¾“å‡ºé«˜é€Ÿè„‰å†², ENABLEæˆ–DISABLE
+	TIM_InitStructure.TIM_Value     = 65536UL - PWM_HIGH_MIN;	//åˆå€¼,
+	TIM_InitStructure.TIM_Run       = ENABLE;				//æ˜¯å¦åˆå§‹åŒ–åå¯åŠ¨å®šæ—¶å™¨, ENABLEæˆ–DISABLE
 	Timer_Inilize(Timer1,&TIM_InitStructure);
 }
 
@@ -58,29 +58,29 @@ void	Timer_config(void) //³õÊ¼»¯Timer0	  Timer0,Timer1,Timer2
 
 
 
-/*************  Íâ²¿º¯ÊıºÍ±äÁ¿ÉùÃ÷ *****************/
+/*************  å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜ *****************/
 
 
-/*************  ´®¿Ú1³õÊ¼»¯º¯Êı *****************/
+/*************  ä¸²å£1åˆå§‹åŒ–å‡½æ•° *****************/
 void	UART_config(void)
 {
-	COMx_InitDefine		COMx_InitStructure;					//½á¹¹¶¨Òå
-	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;		//Ä£Ê½,       UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-	COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;			//Ê¹ÓÃ²¨ÌØÂÊ,   BRT_Timer1, BRT_Timer2 (×¢Òâ: ´®¿Ú2¹Ì¶¨Ê¹ÓÃBRT_Timer2)
-	COMx_InitStructure.UART_BaudRate  = 115200ul;			//²¨ÌØÂÊ, Ò»°ã 110 ~ 115200
-	COMx_InitStructure.UART_RxEnable  = ENABLE;				//½ÓÊÕÔÊĞí,   ENABLE»òDISABLE
-	COMx_InitStructure.BaudRateDouble = DISABLE;			//²¨ÌØÂÊ¼Ó±¶, ENABLE»òDISABLE
-	COMx_InitStructure.UART_Interrupt = ENABLE;				//ÖĞ¶ÏÔÊĞí,   ENABLE»òDISABLE
-	COMx_InitStructure.UART_Polity    = PolityLow;			//ÖĞ¶ÏÓÅÏÈ¼¶, PolityLow,PolityHigh
-	COMx_InitStructure.UART_P_SW      = UART1_SW_P30_P31;	//ÇĞ»»¶Ë¿Ú,   UART1_SW_P30_P31,UART1_SW_P36_P37,UART1_SW_P16_P17(±ØĞëÊ¹ÓÃÄÚ²¿Ê±ÖÓ)
-	COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;		//ÄÚ²¿¶ÌÂ·RXDÓëTXD, ×öÖĞ¼Ì, ENABLE,DISABLE
-	USART_Configuration(USART1, &COMx_InitStructure);		//³õÊ¼»¯´®¿Ú1 USART1,USART2
+	COMx_InitDefine		COMx_InitStructure;					//ç»“æ„å®šä¹‰
+	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;		//æ¨¡å¼,       UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+	COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;			//ä½¿ç”¨æ³¢ç‰¹ç‡,   BRT_Timer1, BRT_Timer2 (æ³¨æ„: ä¸²å£2å›ºå®šä½¿ç”¨BRT_Timer2)
+	COMx_InitStructure.UART_BaudRate  = 115200ul;			//æ³¢ç‰¹ç‡, ä¸€èˆ¬ 110 ~ 115200
+	COMx_InitStructure.UART_RxEnable  = ENABLE;				//æ¥æ”¶å…è®¸,   ENABLEæˆ–DISABLE
+	COMx_InitStructure.BaudRateDouble = DISABLE;			//æ³¢ç‰¹ç‡åŠ å€, ENABLEæˆ–DISABLE
+	COMx_InitStructure.UART_Interrupt = ENABLE;				//ä¸­æ–­å…è®¸,   ENABLEæˆ–DISABLE
+	COMx_InitStructure.UART_Polity    = PolityLow;			//ä¸­æ–­ä¼˜å…ˆçº§, PolityLow,PolityHigh
+	COMx_InitStructure.UART_P_SW      = UART1_SW_P30_P31;	//åˆ‡æ¢ç«¯å£,   UART1_SW_P30_P31,UART1_SW_P36_P37,UART1_SW_P16_P17(å¿…é¡»ä½¿ç”¨å†…éƒ¨æ—¶é’Ÿ)
+	COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;		//å†…éƒ¨çŸ­è·¯RXDä¸TXD, åšä¸­ç»§, ENABLE,DISABLE
+	USART_Configuration(USART1, &COMx_InitStructure);		//åˆå§‹åŒ–ä¸²å£1 USART1,USART2
 
-	PrintString1("STC15F2K60S2 UART1 Test Prgramme!\r\n");	//SUART1·¢ËÍÒ»¸ö×Ö·û´®
+	PrintString1("STC15F2K60S2 UART1 Test Prgramme!\r\n");	//SUART1å‘é€ä¸€ä¸ªå­—ç¬¦ä¸²
 }
 
 
-/**************** ¼ÆËãPWMÖØ×°Öµº¯Êı *******************/
+/**************** è®¡ç®—PWMé‡è£…å€¼å‡½æ•° *******************/
 void	LoadPWM(double omega_x,double omega_y)
 {
 	double f_x,f_y;
@@ -127,7 +127,7 @@ void main(void)
 	
 	P_PWM_X = 0;  //Timer0
 	P_PWM_Y = 0;  //Timer1
-	P1M1 &= ~(1 << 4);	//P1.4 ÉèÖÃÎªÍÆÍìÊä³ö	STC15W204S
+	P1M1 &= ~(1 << 4);	//P1.4 è®¾ç½®ä¸ºæ¨æŒ½è¾“å‡º	STC15W204S
 	P1M0 |=  (1 << 4);			
 
 	Timer_config();	  
@@ -144,7 +144,7 @@ void main(void)
 
 	//PrintString1("Fuck1!\r\n");
 
-						if(COM1.RX_TimeOut > 0)		//³¬Ê±¼ÆÊı
+						if(COM1.RX_TimeOut > 0)		//è¶…æ—¶è®¡æ•°
 						{
 							if(--COM1.RX_TimeOut == 0)
 							{
@@ -152,7 +152,7 @@ void main(void)
 								{
 									//TX1_write2buff(RX1_Buffer[0];
 									//TX1_write2buff(RX1_Buffer[1];
-									for(i=0; i<COM1.RX_Cnt; i++)	TX1_write2buff(RX1_Buffer[i]);//ÊÕµ½µÄÊı¾İÔ­Ñù·µ»Ø	
+									for(i=0; i<COM1.RX_Cnt; i++)	TX1_write2buff(RX1_Buffer[i]);//æ”¶åˆ°çš„æ•°æ®åŸæ ·è¿”å›	
 									omega_x = ((RX1_Buffer[1]-48)*10+(RX1_Buffer[2]-48))/10;
 									omega_y = ((RX1_Buffer[3]-48)*10+(RX1_Buffer[4]-48))/10;
 									stop_x  = 0 ;

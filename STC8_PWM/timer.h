@@ -23,13 +23,13 @@ extern int stop_x,stop_y;
 
 typedef struct
 {
-	u8	TIM_Mode;		//¹¤×÷Ä£Ê½,  	TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-	u8	TIM_Polity;		//ÓÅÏÈ¼¶ÉèÖÃ	PolityHigh,PolityLow
-	u8	TIM_Interrupt;	//ÖĞ¶ÏÔÊĞí		ENABLE,DISABLE
-	u8	TIM_ClkSource;	//Ê±ÖÓÔ´		TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-	u8	TIM_ClkOut;		//¿É±à³ÌÊ±ÖÓÊä³ö,	ENABLE,DISABLE
-	u16	TIM_Value;		//×°ÔØ³õÖµ
-	u8	TIM_Run;		//ÊÇ·ñÔËĞĞ		ENABLE,DISABLE
+	u8	TIM_Mode;		//å·¥ä½œæ¨¡å¼,  	TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+	u8	TIM_Polity;		//ä¼˜å…ˆçº§è®¾ç½®	PolityHigh,PolityLow
+	u8	TIM_Interrupt;	//ä¸­æ–­å…è®¸		ENABLE,DISABLE
+	u8	TIM_ClkSource;	//æ—¶é’Ÿæº		TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+	u8	TIM_ClkOut;		//å¯ç¼–ç¨‹æ—¶é’Ÿè¾“å‡º,	ENABLE,DISABLE
+	u16	TIM_Value;		//è£…è½½åˆå€¼
+	u8	TIM_Run;		//æ˜¯å¦è¿è¡Œ		ENABLE,DISABLE
 } TIM_InitTypeDef;
 
 u8	Timer_Inilize(u8 TIM, TIM_InitTypeDef *TIMx);

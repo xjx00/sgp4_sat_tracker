@@ -4,18 +4,18 @@
 
 /*********************************************************/
 
-#define MAIN_Fosc		22118400L	//¶¨ÒåÖ÷Ê±ÖÓ
-//#define MAIN_Fosc		12000000L	//¶¨ÒåÖ÷Ê±ÖÓ
-//#define MAIN_Fosc		11059200L	//¶¨ÒåÖ÷Ê±ÖÓ
-//#define MAIN_Fosc		 5529600L	//¶¨ÒåÖ÷Ê±ÖÓ
-//#define MAIN_Fosc		24000000L	//¶¨ÒåÖ÷Ê±ÖÓ
+#define MAIN_Fosc		22118400L	//å®šä¹‰ä¸»æ—¶é’Ÿ
+//#define MAIN_Fosc		12000000L	//å®šä¹‰ä¸»æ—¶é’Ÿ
+//#define MAIN_Fosc		11059200L	//å®šä¹‰ä¸»æ—¶é’Ÿ
+//#define MAIN_Fosc		 5529600L	//å®šä¹‰ä¸»æ—¶é’Ÿ
+//#define MAIN_Fosc		24000000L	//å®šä¹‰ä¸»æ—¶é’Ÿ
 
 
 /*********************************************************/
 
 #include	"STC15Fxxxx.H"
 
-sbit	P_PWM_X= P1^1;		//¶¨ÒåPWMÊä³öÒý½Å¡£STC15W204S
+sbit	P_PWM_X= P1^1;		//å®šä¹‰PWMè¾“å‡ºå¼•è„šã€‚STC15W204S
 sbit	P_PWM_Y= P1^3;
 
 #endif
