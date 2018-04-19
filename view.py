@@ -12,6 +12,6 @@ compass.init()
 
 while True:
 	
-	AZ_now = accel.read()
-	EL_now = compass.read()
+	AZ_now = accel.read()     #azimuth
+	EL_now = compass.read()   #elevation
 	time.sleep(0.1)

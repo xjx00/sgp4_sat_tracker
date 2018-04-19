@@ -82,7 +82,7 @@ class HMC5883L:
             #print "atan2="
             #print heading
             global	declinationAngle
-            declinationAngle = (4.0 + (26.0 / 60.0)) / (180 / math.pi);
+            declinationAngle = (114.0 + (43.0 / 60.0)) / (180 / math.pi);
             
             heading = heading + declinationAngle;#change to BG6.
 

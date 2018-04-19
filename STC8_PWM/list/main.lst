@@ -1,0 +1,215 @@
+C51 COMPILER V9.00   MAIN                                                                  04/18/2018 05:25:23 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\list\main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\list\main.lst
+                    -) OBJECT(.\list\main.obj)
+
+line level    source
+
+   1          #include        "config.h"
+   2          #include        "USART1.h"
+   3          #include        "delay.h"
+   4          #include        "timer.h"
+   5          
+   6          /*************  功能说明        **************
+   7          
+   8          双串口全双工中断方式收发通讯程序。
+   9          
+  10          通过PC向MCU发送数据, MCU收到后通过串口把收到的数据原样返回.
+  11          
+  12          ******************************************/
+  13          
+  14          /*************  本地常量声明    **************/
+  15          #define         PWM_DUTY                6000                    //定义PWM的周期，数值为时钟周期数，假如使用24.576MHZ的主频，则PWM频率为6000HZ。
+  16          
+  17          #define         PWM_HIGH_MIN    32                              //限制PWM输出的最小占空比。用户请勿修改。
+  18          #define         PWM_HIGH_MAX    (PWM_DUTY-PWM_HIGH_MIN) //限制PWM输出的最大占空比。用户请勿修改。
+  19          
+  20          /*************  本地变量声明    **************/
+  21          
+  22          double omega_x,omega_y;
+  23          
+  24          /*************  本地函数声明    **************/
+  25          
+  26          
+  27          
+  28          /************************ 定时器配置 ****************************/
+  29          void    Timer_config(void) //初始化Timer0         Timer0,Timer1,Timer2
+  30          {
+  31   1              
+  32   1              
+  33   1              TIM_InitTypeDef         TIM_InitStructure;                                      //结构定义
+  34   1              
+  35   1              
+  36   1              
+  37   1              TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;  //指定工作模式,   TIM_16BitAutoReload,TIM_16Bit,TI
+             -M_8BitAutoReload,TIM_16BitAutoReloadNoMask
+  38   1              TIM_InitStructure.TIM_Polity    = PolityHigh;                   //指定中断优先级, PolityHigh,PolityLow
+  39   1              TIM_InitStructure.TIM_Interrupt = ENABLE;                               //中断是否允许,   ENABLE或DISABLE
+  40   1              TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;                 //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_
+             -Ext
+  41   1              TIM_InitStructure.TIM_ClkOut    = ENABLE;                               //是否输出高速脉冲, ENABLE或DISABLE
+  42   1              TIM_InitStructure.TIM_Value     = 65536UL - PWM_HIGH_MIN;       //初值,
+  43   1              TIM_InitStructure.TIM_Run       = ENABLE;                               //是否初始化后启动定时器, ENABLE或DISABLE
+  44   1              Timer_Inilize(Timer0,&TIM_InitStructure);                               //初始化Timer0    Timer0,Timer1,Timer2
+  45   1      
+  46   1                                              //结构定义
+  47   1              TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;  //指定工作模式,   TIM_16BitAutoReload,TIM_16Bit,TI
+             -M_8BitAutoReload,TIM_16BitAutoReloadNoMask
+  48   1              TIM_InitStructure.TIM_Polity    = PolityHigh;                   //指定中断优先级, PolityHigh,PolityLow
+  49   1              TIM_InitStructure.TIM_Interrupt = ENABLE;                               //中断是否允许,   ENABLE或DISABLE
+  50   1              TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;                 //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_
+             -Ext
+C51 COMPILER V9.00   MAIN                                                                  04/18/2018 05:25:23 PAGE 2   
+
+  51   1              TIM_InitStructure.TIM_ClkOut    = ENABLE;                               //是否输出高速脉冲, ENABLE或DISABLE
+  52   1              TIM_InitStructure.TIM_Value     = 65536UL - PWM_HIGH_MIN;       //初值,
+  53   1              TIM_InitStructure.TIM_Run       = ENABLE;                               //是否初始化后启动定时器, ENABLE或DISABLE
+  54   1              Timer_Inilize(Timer1,&TIM_InitStructure);
+  55   1      }
+  56          
+  57          
+  58          
+  59          
+  60          
+  61          /*************  外部函数和变量声明 *****************/
+  62          
+  63          
+  64          /*************  串口1初始化函数 *****************/
+  65          void    UART_config(void)
+  66          {
+  67   1              COMx_InitDefine         COMx_InitStructure;                                     //结构定义
+  68   1              COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;             //模式,       UART_ShiftRight,UART_8bit_BRTx,UART_9b
+             -it,UART_9bit_BRTx
+  69   1              COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;                 //使用波特率,   BRT_Timer1, BRT_Timer2 (注意: 串口2固定
+             -使用BRT_Timer2)
+  70   1              COMx_InitStructure.UART_BaudRate  = 115200ul;                   //波特率, 一般 110 ~ 115200
+  71   1              COMx_InitStructure.UART_RxEnable  = ENABLE;                             //接收允许,   ENABLE或DISABLE
+  72   1              COMx_InitStructure.BaudRateDouble = DISABLE;                    //波特率加倍, ENABLE或DISABLE
+  73   1              COMx_InitStructure.UART_Interrupt = ENABLE;                             //中断允许,   ENABLE或DISABLE
+  74   1              COMx_InitStructure.UART_Polity    = PolityLow;                  //中断优先级, PolityLow,PolityHigh
+  75   1              COMx_InitStructure.UART_P_SW      = UART1_SW_P30_P31;   //切换端口,   UART1_SW_P30_P31,UART1_SW_P36_P37,UAR
+             -T1_SW_P16_P17(必须使用内部时钟)
+  76   1              COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;                //内部短路RXD与TXD, 做中继, ENABLE,DISABLE
+  77   1              USART_Configuration(USART1, &COMx_InitStructure);               //初始化串口1 USART1,USART2
+  78   1      
+  79   1              PrintString1("STC15F2K60S2 UART1 Test Prgramme!\r\n");  //SUART1发送一个字符串
+  80   1      }
+  81          
+  82          
+  83          /**************** 计算PWM重装值函数 *******************/
+  84          void    LoadPWM(double omega_x,double omega_y)
+  85          {
+  86   1              double f_x,f_y;
+  87   1              double t_x,t_y;
+  88   1              double derect;
+  89   1              
+  90   1              derect = 800;
+  91   1      //omega*derect>=MAIN_Fosc/65536=22118400 / 65536 = 303
+  92   1              //omega>=30/80
+  93   1              
+  94   1              if(omega_x<0.4) 
+  95   1                      stop_x = 1 ;
+  96   1              else
+  97   1              {
+  98   2                      f_x = omega_x*derect/1.8;
+  99   2                      t_x = 1000/2/f_x;
+ 100   2                      t_x = t_x/1000;
+ 101   2                      PWM_x = (int)(65536-t_x*MAIN_Fosc);
+ 102   2              }
+ 103   1              
+ 104   1              
+ 105   1              if(omega_y<0.4) stop_y = 1 ;
+ 106   1              else
+ 107   1              {
+ 108   2                      f_y = omega_y*derect/1.8;
+ 109   2                      t_y = 1000/2/f_y;
+C51 COMPILER V9.00   MAIN                                                                  04/18/2018 05:25:23 PAGE 3   
+
+ 110   2                      t_y = t_y/1000;
+ 111   2                      PWM_y = (int)(65536-t_y*MAIN_Fosc);
+ 112   2              }
+ 113   1              
+ 114   1              
+ 115   1              
+ 116   1      }
+ 117          /**********************************************/
+ 118          void main(void)
+ 119          {
+ 120   1              u8      i;
+ 121   1      
+ 122   1      
+ 123   1              omega_x = 1 ;
+ 124   1              omega_y = 1 ;
+ 125   1              stop_x  = 1 ;
+ 126   1              stop_x  = 1 ;
+ 127   1              
+ 128   1              P_PWM_X = 0;  //Timer0
+ 129   1              P_PWM_Y = 0;  //Timer1
+ 130   1              P1M1 &= ~(1 << 4);      //P1.4 设置为推挽输出   STC15W204S
+ 131   1              P1M0 |=  (1 << 4);                      
+ 132   1      
+ 133   1              Timer_config();   
+ 134   1              UART_config();
+ 135   1              
+ 136   1              TR1 = 1;
+ 137   1              
+ 138   1              EA = 1;
+ 139   1      
+ 140   1              while (1)
+ 141   1              {
+ 142   2      
+ 143   2              delay_ms(100);
+ 144   2      
+ 145   2              //PrintString1("Fuck1!\r\n");
+ 146   2      
+ 147   2                                                      if(COM1.RX_TimeOut > 0)         //超时计数
+ 148   2                                                      {
+ 149   3                                                              if(--COM1.RX_TimeOut == 0)
+ 150   3                                                              {
+ 151   4                                                                      if(COM1.RX_Cnt > 0)
+ 152   4                                                                      {
+ 153   5                                                                              //TX1_write2buff(RX1_Buffer[0];
+ 154   5                                                                              //TX1_write2buff(RX1_Buffer[1];
+ 155   5                                                                              for(i=0; i<COM1.RX_Cnt; i++)    TX1_write2buff(RX1_Buffer[i]);//收到的数据原样返回      
+ 156   5                                                                              omega_x = ((RX1_Buffer[1]-48)*10+(RX1_Buffer[2]-48))/10;
+ 157   5                                                                              omega_y = ((RX1_Buffer[3]-48)*10+(RX1_Buffer[4]-48))/10;
+ 158   5                                                                              stop_x  = 0 ;
+ 159   5                                                                              stop_y  = 0 ;
+ 160   5                                                                      }
+ 161   4                                                                      COM1.RX_Cnt = 0;
+ 162   4                                                              }
+ 163   3                                                      }       
+ 164   2                                                      
+ 165   2                      //$aabb
+ 166   2      
+ 167   2      
+ 168   2      
+ 169   2                                                      
+ 170   2                      LoadPWM(omega_x,omega_y);
+ 171   2      
+C51 COMPILER V9.00   MAIN                                                                  04/18/2018 05:25:23 PAGE 4   
+
+ 172   2                      delay_ms(100);
+ 173   2      
+ 174   2              }
+ 175   1      }
+ 176          
+ 177          
+ 178          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    688    ----
+   CONSTANT SIZE    =     36    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8      42
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
