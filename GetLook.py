@@ -20,7 +20,7 @@ class Eci(object):
 
 
 Site          = Eci()
-Site.Position =[ deg2rad(Lat),deg2rad(Lon),kmAlt ]
+Site.Position =[ math.deg2rad(Lat),math.deg2rad(Lon),kmAlt ]
 
 
 def GetLook(date_now,eciSat):

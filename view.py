@@ -4,6 +4,7 @@
 from MMA8452Q import MMA8452Q
 from HMC5883L import HMC5883L
 from numpy import deg2rad
+
 import serial
 import time
 import GetLook
