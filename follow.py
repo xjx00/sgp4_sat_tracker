@@ -9,7 +9,7 @@ import serial
 import time
 import GetLook
 import math
-import sgp4
+import GetSat
 
 
 ser=serial.Serial("/dev/ttyUSB0",115200,timeout=0.5)
@@ -32,9 +32,9 @@ t#ime.time()
 while True:
 
 
-	date_now = sgp4.fklghdksfhg
+	date_now = GetSat.fklghdksfhg
 
-	eciSat = sgp4.get_eciSat(date_now)
+	eciSat = GetSat.get_eciSat(date_now)
 
 	#eciSat.Position = list(P)
 	#eciSat.Velocity = list(V)
