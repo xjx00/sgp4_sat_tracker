@@ -11,7 +11,7 @@
 
 
 import math
-from numpy import deg2rad
+import time
 
 from sgp4.earth_gravity import wgs72
 from sgp4.ext import invjday, newtonnu, rv2coe
@@ -20,14 +20,10 @@ from sgp4.propagation import sgp4
 
 
 class Eci(object):
-	position=[]
-	velocity=[]
+	Position=[]
+	Velocity=[]
 
-F                        =        1.0 / 298.26
-XKMPER_WGS72             =        6378.135
-EPOCH_JAN1_12H_2000      =        2451545.0
-SEC_PER_DAY              =        86400.0
-OMEGA_E                  =        1.00273790934
+
 
 
 
@@ -45,10 +41,17 @@ eciSat  = Eci()
 
 
 
-def get_eciSat(date_now):
+def get_eciSat():
 
 
-  P,V = satellite.propagate(2000, 6, 28, 0, 50, 19.733567)
+#time.struct_time(tm_year=2018, tm_mon=2, tm_mday=8, 
+#   tm_hour=13, tm_min=37, tm_sec=31, tm_wday=3, tm_yday=39, tm_isdst=0)
+
+
+  date_now = time.localtime(time.time())
+
+  P,V = satellite.propagate(date_now.tm_year, date_now.tm_mon, date_now.tm_mday,
+                               date_now.tm_hour, time.time()%3600, time.time()%60)
 
   ##list & tuple
   eciSat.Position = list(P)

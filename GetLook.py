@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import math
+from numpy import deg2rad
+
 
 F                        =        1.0 / 298.26
 XKMPER_WGS72             =        6378.135
@@ -9,18 +11,22 @@ EPOCH_JAN1_12H_2000      =        2451545.0
 SEC_PER_DAY              =        86400.0
 OMEGA_E                  =        1.00273790934
 
-Lat = 30.463
-Lon = 114.43
-Alt = 0.05
 
 
 class Eci(object):
-	position=[]
-	velocity=[]
+	Position=[]
+	Velocity=[]
+
+
+Lat = 30.463
+Lon = 114.43
+kmAlt = 0.05
+
+
 
 
 Site          = Eci()
-Site.Position =[ math.deg2rad(Lat),math.deg2rad(Lon),kmAlt ]
+Site.Position =[ deg2rad(Lat),deg2rad(Lon),kmAlt ]
 
 
 def GetLook(date_now,eciSat):

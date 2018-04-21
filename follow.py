@@ -1,45 +1,42 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from MMA8452Q import MMA8452Q
-from HMC5883L import HMC5883L
+#from MMA8452Q import MMA8452Q
+#from HMC5883L import HMC5883L
 from numpy import deg2rad
 
-import serial
+#import serial
 import time
 import GetLook
 import math
 import GetSat
 
 
-ser=serial.Serial("/dev/ttyUSB0",115200,timeout=0.5)
-ser.open()
+#ser=serial.Serial("/dev/ttyUSB0",115200,timeout=0.5)
+#ser.open()
 
-accel 	= MMA8452Q()
-compass = HMC5883L()
+#accel 	= MMA8452Q()
+#compass = HMC5883L()
 
-accel.init()
-compass.init()
+#accel.init()
+#compass.init()
 
 
 
 
 #time.localtime(time.time())
-t#ime.time()
+#ime.time()
 #date = satellite.jdsatepoch
 
 
 while True:
 
+	eciSat = GetSat.get_eciSat()
 
-	date_now = GetSat.fklghdksfhg
+	date_now_julian = time.time()/3600+2440588.5
 
-	eciSat = GetSat.get_eciSat(date_now)
 
-	#eciSat.Position = list(P)
-	#eciSat.Velocity = list(V)
-
-	GetLook.GetLook(date_now,eciSat)
+	GetLook.GetLook(date_now_julian,eciSat)
 	#date_now为Julian形式
 
 	AZ_now = accel.read()     #azimuth
