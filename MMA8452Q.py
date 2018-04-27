@@ -76,33 +76,38 @@ class MMA8452Q():
 	
 	def read(self):
 
+            AZ = 0
 
-		"""Read data back from MMA8452Q_REG_STATUS(0x00), 7 bytes
-		Status register, X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB"""
-		data = wpi.wiringPiI2CReadReg8(b, 0x01)
-		
-		# Convert the data
-		xAccl = (wpi.wiringPiI2CReadReg8(b, 0x01) * 256 + wpi.wiringPiI2CReadReg8(b, 0x02)) / 16
-		if xAccl > 2047 :
-			xAccl -= 4096
-		
-		yAccl = (wpi.wiringPiI2CReadReg8(b, 0x03) * 256 + wpi.wiringPiI2CReadReg8(b, 0x04)) / 16
-		if yAccl > 2047 :
-			yAccl -= 4096
-		
-		zAccl = (wpi.wiringPiI2CReadReg8(b, 0x05) * 256 + wpi.wiringPiI2CReadReg8(b, 0x06)) / 16
-		if zAccl > 2047 :
-			zAccl -= 4096
-		
+			"""Read data back from MMA8452Q_REG_STATUS(0x00), 7 bytes
+			Status register, X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB"""
+            
+            for i in range(1,10):
 
-
-		if yAccl>1024:
-			yAccl=1024
-		if yAccl<-1024:
-			yAccl=-1024
+				data = wpi.wiringPiI2CReadReg8(b, 0x01)
+				
+				# Convert the data
+				xAccl = (wpi.wiringPiI2CReadReg8(b, 0x01) * 256 + wpi.wiringPiI2CReadReg8(b, 0x02)) / 16
+				if xAccl > 2047 :
+					xAccl -= 4096
+				
+				yAccl = (wpi.wiringPiI2CReadReg8(b, 0x03) * 256 + wpi.wiringPiI2CReadReg8(b, 0x04)) / 16
+				if yAccl > 2047 :
+					yAccl -= 4096
+				
+				zAccl = (wpi.wiringPiI2CReadReg8(b, 0x05) * 256 + wpi.wiringPiI2CReadReg8(b, 0x06)) / 16
+				if zAccl > 2047 :
+					zAccl -= 4096
+				
 
 
-		AZ=90-math.acos(float(yAccl)/float(1024))*180/math.pi
+				if yAccl>1024:
+					yAccl=1024
+				if yAccl<-1024:
+					yAccl=-1024
+
+
+				AZ=AZ+9-math.acos(float(yAccl)/float(1024))*18/math.pi
+					#90/10									180/10
 
 
 		return AZ

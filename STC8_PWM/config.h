@@ -15,7 +15,14 @@
 
 #include	"STC15Fxxxx.H"
 
-sbit	P_PWM_X= P1^1;		//定义PWM输出引脚。STC15W204S
-sbit	P_PWM_Y= P1^3;
 
+sbit	P_DIR_X= P1^0;		//D5	8
+
+sbit	P_PWM_X= P1^1;		//D2	5
+
+sbit	P_DIR_Y= P1^2;		//D6	9
+
+sbit	P_PWM_Y= P1^3;		//D3	6
+
+sbit	LED = P1^4;
 #endif

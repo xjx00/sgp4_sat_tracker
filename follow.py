@@ -23,7 +23,7 @@ import GetSat
 
 
 
-
+cmd='$100100'
 #time.localtime(time.time())
 #ime.time()
 #date = satellite.jdsatepoch
@@ -36,13 +36,23 @@ while True:
 	date_now_julian = time.time()/3600+2440588.5
 
 
-	GetLook.GetLook(date_now_julian,eciSat)
+	AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
 	#date_now为Julian形式
 
 	AZ_now = accel.read()     #azimuth
 	EL_now = compass.read()   #elevation
 
+	if(EL_now < EL):
+		cmd[4] = 1
+	else:
+		cmd[4] = 0
 
+	omega_y = EL 
+
+	if()
+
+
+	ser.write(cmd)
 	time.sleep(0.1)
 
 

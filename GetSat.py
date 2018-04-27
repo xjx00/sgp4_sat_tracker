@@ -2,14 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-
-#import os
-#import re
-#import sys
-#from doctest import DocTestSuite, ELLIPSIS
-#from unittest import TestCase
-
-
 import math
 import time
 
@@ -27,7 +19,7 @@ class Eci(object):
 
 
 
-
+#Sat Data
 
 line1 = ('1 00005U 58002B   00179.78495062  '
           '.00000023  00000-0  28098-4 0  4753')

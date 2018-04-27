@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   USART1                                                                04/19/2018 17:29:53 PAGE 1   
+C51 COMPILER V9.00   USART1                                                                04/24/2018 21:39:19 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE USART1
@@ -62,7 +62,7 @@ line level    source
   52   4                                      AUXR &= ~(1<<3);        //Timer2 set As Timer
   53   4                                      AUXR |=  (1<<2);        //Timer2 set as 1T mode
   54   4                                      TH2 = (u8)(j>>8);
-C51 COMPILER V9.00   USART1                                                                04/19/2018 17:29:53 PAGE 2   
+C51 COMPILER V9.00   USART1                                                                04/24/2018 21:39:19 PAGE 2   
 
   55   4                                      TL2 = (u8)j;
   56   4                                      IE2  &= ~(1<<2);        //禁止中断
@@ -126,7 +126,7 @@ line level    source
  113   2                      {
  114   3                              if(COM1.RX_Cnt >= COM_RX1_Lenth)        COM1.RX_Cnt = 0;
  115   3                              RX1_Buffer[COM1.RX_Cnt++] = SBUF;
-C51 COMPILER V9.00   USART1                                                                04/19/2018 17:29:53 PAGE 3   
+C51 COMPILER V9.00   USART1                                                                04/24/2018 21:39:19 PAGE 3   
 
  116   3                              COM1.RX_TimeOut = TimeOutSet1;
  117   3                      }

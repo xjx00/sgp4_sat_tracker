@@ -117,8 +117,8 @@ void	LoadPWM(double omega_x,double omega_y)
 /**********************************************/
 void main(void)
 {
-	u8	i;
-
+	//u8	i;
+	LED = 1;
 
 	omega_x = 1 ;
 	omega_y = 1 ;
@@ -150,11 +150,15 @@ void main(void)
 							{
 								if(COM1.RX_Cnt > 0)
 								{
-									//TX1_write2buff(RX1_Buffer[0];
-									//TX1_write2buff(RX1_Buffer[1];
-									for(i=0; i<COM1.RX_Cnt; i++)	TX1_write2buff(RX1_Buffer[i]);//收到的数据原样返回	
-									omega_x = ((RX1_Buffer[1]-48)*10+(RX1_Buffer[2]-48))/10;
-									omega_y = ((RX1_Buffer[3]-48)*10+(RX1_Buffer[4]-48))/10;
+									//for(i=0; i<COM1.RX_Cnt; i++)	TX1_write2buff(RX1_Buffer[i]);//收到的数据原样返回	
+									
+									omega_x = ((RX1_Buffer[2]-48)*10+(RX1_Buffer[3]-48))/10;
+									omega_y = ((RX1_Buffer[5]-48)*10+(RX1_Buffer[6]-48))/10;
+									
+									P_DIR_X = (int)(RX1_Buffer[1]-48);
+									P_DIR_Y = (int)(RX1_Buffer[4]-48);
+
+									
 									stop_x  = 0 ;
 									stop_y  = 0 ;
 								}
@@ -162,13 +166,13 @@ void main(void)
 							}
 						} 	
 						
-		//$aabb
+		//$dxxdyy
 
 
 
 						
 		LoadPWM(omega_x,omega_y);
-
+		LED = !LED;
 		delay_ms(100);
 
 	}

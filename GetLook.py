@@ -17,7 +17,7 @@ class Eci(object):
 	Position=[]
 	Velocity=[]
 
-
+#Site Data
 Lat = 30.463
 Lon = 114.43
 kmAlt = 0.05
@@ -26,7 +26,7 @@ kmAlt = 0.05
 
 
 Site          = Eci()
-Site.Position =[ deg2rad(Lat),deg2rad(Lon),kmAlt ]
+Site.Position =[ deg2rad(Lat) , deg2rad(Lon) , kmAlt ]
 
 
 def GetLook(date_now,eciSat):
