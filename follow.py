@@ -12,7 +12,7 @@ import math
 import GetSat
 
 
-#ser=serial.Serial("/dev/ttyUSB0",115200,timeout=0.5)
+#ser	=	serial.Serial("/dev/ttyUSB0",115200,timeout=0.5)
 #ser.open()
 
 #accel 	= MMA8452Q()
@@ -43,9 +43,15 @@ while True:
 	EL_now = compass.read()   #elevation
 
 	if(EL_now < EL):
-		cmd[4] = 1
+		s1=list(cmd)
+		s1[4] = '1'
+		cmd=''.join(s1) 
 	else:
-		cmd[4] = 0
+		s1=list(cmd)
+		s1[4] = '0'
+		cmd=''.join(s1) 
+
+spam[:13] + 'r' + spam[14:]
 
 	omega_y = EL 
 

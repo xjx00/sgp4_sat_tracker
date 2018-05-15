@@ -110,7 +110,7 @@ class MMA8452Q():
 					#90/10									180/10
 
 
-				return AZ
+			return AZ
 
 
 
