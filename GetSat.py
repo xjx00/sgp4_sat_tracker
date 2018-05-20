@@ -21,10 +21,10 @@ class Eci(object):
 
 #Sat Data
 
-line1 = ('1 00005U 58002B   00179.78495062  '
-          '.00000023  00000-0  28098-4 0  4753')
-line2 = ('2 00005  34.2682 348.7242 1859667 '
-          '331.7664  19.3264 10.82419157413667')
+line1 = ('1 27607U 02058C   18139.60924307 -'
+          '.00000017  00000-0  18334-4 0  9992')
+line2 = ('2 27607  64.5540 177.3887 0062142 '
+          '334.6948  25.1113 14.75448922828615')
 
 satellite = twoline2rv(line1, line2, wgs72)
 
@@ -43,7 +43,7 @@ def get_eciSat():
   date_now = time.localtime(time.time())
 
   P,V = satellite.propagate(date_now.tm_year, date_now.tm_mon, date_now.tm_mday,
-                               date_now.tm_hour, time.time()%3600, time.time()%60)
+                               date_now.tm_hour, date_now.tm_min, date_now.tm_sec)
 
   ##list & tuple
   eciSat.Position = list(P)

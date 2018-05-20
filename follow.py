@@ -1,25 +1,26 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#from MMA8452Q import MMA8452Q
 #from HMC5883L import HMC5883L
+from MMA8452Q import MMA8452Q
 from numpy import deg2rad
 
-#import serial
+import serial
 import time
 import GetLook
 import math
 import GetSat
 
 
-#ser	=	serial.Serial("/dev/ttyUSB0",115200,timeout=0.5)
-#ser.open()
+ser=serial.Serial("/dev/ttyUSB0",230400,timeout=0.5)
 
-#accel 	= MMA8452Q()
-#compass = HMC5883L()
 
-#accel.init()
-#compass.init()
+#azimuth = HMC5883L()
+elevation 	= MMA8452Q()
+
+
+#azimuth.init()
+elevation.init()
 
 
 
@@ -28,6 +29,8 @@ cmd='$100100'
 #ime.time()
 #date = satellite.jdsatepoch
 
+#PID参数设置
+kp=1
 
 while True:
 
@@ -39,23 +42,33 @@ while True:
 	AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
 	#date_now为Julian形式
 
-	AZ_now = accel.read()     #azimuth
-	EL_now = compass.read()   #elevation
+	#AZ_now = azimuth.read()     #azimuth
+	EL_now = elevation.read()   #elevation
 
 	if(EL_now < EL):
 		s1=list(cmd)
 		s1[4] = '1'
+
+		omega_y = kp*(EL-EL_now)
+		s1[5] = str(int(omega_y))
+		s1[6] = str(int(omega_y*10%10))
+
 		cmd=''.join(s1) 
 	else:
 		s1=list(cmd)
 		s1[4] = '0'
+
+		omega_y = kp*(EL-EL_now)
+		s1[5] = str(int(omega_y))
+		s1[6] = str(int(omega_y*10%10))
+
 		cmd=''.join(s1) 
 
 
+	print 'Goal =',EL
+	print 'Now =',EL_now
+	print cmd
 
-	omega_y = EL 
-
-	if()
 
 
 	ser.write(cmd)

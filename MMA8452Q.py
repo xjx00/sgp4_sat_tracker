@@ -78,8 +78,8 @@ class MMA8452Q():
 
             AZ = 0
 
-		"""Read data back from MMA8452Q_REG_STATUS(0x00), 7 bytes
-		Status register, X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB"""
+		#Read data back from MMA8452Q_REG_STATUS(0x00), 7 bytes
+		#Status register, X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB
             
             for i in range(1,10):
 
