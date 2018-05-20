@@ -51,7 +51,7 @@ while True:
 		s1[4] = '0'
 		cmd=''.join(s1) 
 
-spam[:13] + 'r' + spam[14:]
+
 
 	omega_y = EL 
 

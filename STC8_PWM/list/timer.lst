@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   TIMER                                                                 04/24/2018 21:39:19 PAGE 1   
+C51 COMPILER V9.00   TIMER                                                                 05/19/2018 17:52:20 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE TIMER
@@ -62,7 +62,7 @@ line level    source
   52   1              if(TIM == Timer0)
   53   1              {
   54   2                      TR0 = 0;                //停止计数
-C51 COMPILER V9.00   TIMER                                                                 04/24/2018 21:39:19 PAGE 2   
+C51 COMPILER V9.00   TIMER                                                                 05/19/2018 17:52:20 PAGE 2   
 
   55   2                      if(TIMx->TIM_Interrupt == ENABLE)               ET0 = 1;        //允许中断
   56   2                      else                                                                    ET0 = 0;        //禁止中断
@@ -126,7 +126,7 @@ line level    source
  112   2                      return  0;              //成功
  113   2              }
  114   1              return 2;       //错误
-C51 COMPILER V9.00   TIMER                                                                 04/24/2018 21:39:19 PAGE 3   
+C51 COMPILER V9.00   TIMER                                                                 05/19/2018 17:52:20 PAGE 3   
 
  115   1      }
 

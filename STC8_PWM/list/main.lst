@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   MAIN                                                                  04/24/2018 21:39:19 PAGE 1   
+C51 COMPILER V9.00   MAIN                                                                  05/19/2018 17:52:20 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   48   1              TIM_InitStructure.TIM_Polity    = PolityHigh;                   //指定中断优先级, PolityHigh,PolityLow
   49   1              TIM_InitStructure.TIM_Interrupt = ENABLE;                               //中断是否允许,   ENABLE或DISABLE
   50   1              TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;                 //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_C
-C51 COMPILER V9.00   MAIN                                                                  04/24/2018 21:39:19 PAGE 2   
+C51 COMPILER V9.00   MAIN                                                                  05/19/2018 17:52:20 PAGE 2   
 
              -LOCK_Ext
   51   1              TIM_InitStructure.TIM_ClkOut    = ENABLE;                               //是否输出高速脉冲, ENABLE或DISABLE
@@ -86,7 +86,7 @@ line level    source
              -9bit,UART_9bit_BRTx
   69   1              COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;                 //使用波特率,   BRT_Timer1, BRT_Timer2 (注意: �
              -�口2固定使用BRT_Timer2)
-  70   1              COMx_InitStructure.UART_BaudRate  = 115200ul;                   //波特率, 一般 110 ~ 115200
+  70   1              COMx_InitStructure.UART_BaudRate  = 230400ul/*115200ul*/;                       //波特率, 一般 110 ~ 115200
   71   1              COMx_InitStructure.UART_RxEnable  = ENABLE;                             //接收允许,   ENABLE或DISABLE
   72   1              COMx_InitStructure.BaudRateDouble = DISABLE;                    //波特率加倍, ENABLE或DISABLE
   73   1              COMx_InitStructure.UART_Interrupt = ENABLE;                             //中断允许,   ENABLE或DISABLE
@@ -112,103 +112,104 @@ line level    source
   92   1              //omega>=30/80
   93   1              
   94   1              if(omega_x<0.4) 
-  95   1                      stop_x = 1 ;
-  96   1              else
-  97   1              {
-  98   2                      f_x = omega_x*derect/1.8;
-  99   2                      t_x = 1000/2/f_x;
- 100   2                      t_x = t_x/1000;
- 101   2                      PWM_x = (int)(65536-t_x*MAIN_Fosc);
- 102   2              }
- 103   1              
- 104   1              
- 105   1              if(omega_y<0.4) stop_y = 1 ;
- 106   1              else
- 107   1              {
- 108   2                      f_y = omega_y*derect/1.8;
-C51 COMPILER V9.00   MAIN                                                                  04/24/2018 21:39:19 PAGE 3   
+  95   1              {       stop_x = 1 ;
+  96   2                      PWM_x = 0;
+  97   2                      PrintString1("x,0!\r\n");
+  98   2              }
+  99   1              else
+ 100   1              {
+ 101   2                      f_x = omega_x*derect/1.8;
+ 102   2                      t_x = 1000/2/f_x;
+ 103   2                      t_x = t_x/1000;
+ 104   2                      PWM_x = (int)(65536-t_x*MAIN_Fosc);
+ 105   2              }
+ 106   1              
+ 107   1              
+ 108   1              if(omega_y<0.4) 
+C51 COMPILER V9.00   MAIN                                                                  05/19/2018 17:52:20 PAGE 3   
 
- 109   2                      t_y = 1000/2/f_y;
- 110   2                      t_y = t_y/1000;
- 111   2                      PWM_y = (int)(65536-t_y*MAIN_Fosc);
+ 109   1              {       stop_x = 1 ;
+ 110   2                      PWM_y = 0;
+ 111   2                      PrintString1("y,0!\r\n");
  112   2              }
- 113   1              
- 114   1              
- 115   1              
- 116   1      }
- 117          /**********************************************/
- 118          void main(void)
- 119          {
- 120   1              //u8    i;
- 121   1              LED = 1;
- 122   1      
- 123   1              omega_x = 1 ;
- 124   1              omega_y = 1 ;
- 125   1              stop_x  = 1 ;
- 126   1              stop_x  = 1 ;
- 127   1              
- 128   1              P_PWM_X = 0;  //Timer0
- 129   1              P_PWM_Y = 0;  //Timer1
- 130   1              P1M1 &= ~(1 << 4);      //P1.4 设置为推挽输出    STC15W204S
- 131   1              P1M0 |=  (1 << 4);                      
- 132   1      
- 133   1              Timer_config();   
- 134   1              UART_config();
- 135   1              
- 136   1              TR1 = 1;
- 137   1              
- 138   1              EA = 1;
- 139   1      
- 140   1              while (1)
- 141   1              {
- 142   2      
- 143   2              delay_ms(100);
- 144   2      
- 145   2              //PrintString1("Fuck1!\r\n");
- 146   2      
- 147   2                                                      if(COM1.RX_TimeOut > 0)         //超时计数
- 148   2                                                      {
- 149   3                                                              if(--COM1.RX_TimeOut == 0)
- 150   3                                                              {
- 151   4                                                                      if(COM1.RX_Cnt > 0)
- 152   4                                                                      {
- 153   5                                                                              //for(i=0; i<COM1.RX_Cnt; i++)  TX1_write2buff(RX1_Buffer[i]);//收到的数据原样返回     
- 154   5                                                                              
- 155   5                                                                              omega_x = ((RX1_Buffer[2]-48)*10+(RX1_Buffer[3]-48))/10;
- 156   5                                                                              omega_y = ((RX1_Buffer[5]-48)*10+(RX1_Buffer[6]-48))/10;
- 157   5                                                                              
- 158   5                                                                              P_DIR_X = (int)(RX1_Buffer[1]-48);
- 159   5                                                                              P_DIR_Y = (int)(RX1_Buffer[4]-48);
- 160   5      
+ 113   1              else
+ 114   1              {
+ 115   2                      f_y = omega_y*derect/1.8;
+ 116   2                      t_y = 1000/2/f_y;
+ 117   2                      t_y = t_y/1000;
+ 118   2                      PWM_y = (int)(65536-t_y*MAIN_Fosc);
+ 119   2              }
+ 120   1              
+ 121   1              
+ 122   1              
+ 123   1      }
+ 124          /**********************************************/
+ 125          void main(void)
+ 126          {
+ 127   1      
+ 128   1              omega_x = 1 ;
+ 129   1              omega_y = 1 ;
+ 130   1              stop_x  = 1 ;
+ 131   1              stop_x  = 1 ;
+ 132   1              
+ 133   1              P_PWM_X = 0;  //Timer0
+ 134   1              P_PWM_Y = 0;  //Timer1
+ 135   1              P1M1 &= ~(1 << 4);      //P1.4 设置为推挽输出    STC15W204S
+ 136   1              P1M0 |=  (1 << 4);                      
+ 137   1      
+ 138   1              Timer_config();   
+ 139   1              UART_config();
+ 140   1              
+ 141   1              TR1 = 1;
+ 142   1              
+ 143   1              EA = 1;
+ 144   1      
+ 145   1              while (1)
+ 146   1              {
+ 147   2      
+ 148   2      
+ 149   2              //PrintString1("Fuck1!\r\n");
+ 150   2      
+ 151   2                                                      if(COM1.RX_TimeOut > 0)         //超时计数
+ 152   2                                                      {
+ 153   3                                                              if(--COM1.RX_TimeOut == 0)
+ 154   3                                                              {
+ 155   4                                                                      if(COM1.RX_Cnt > 0)
+ 156   4                                                                      {
+ 157   5                                                                              //for(i=0; i<COM1.RX_Cnt; i++)  TX1_write2buff(RX1_Buffer[i]);//收到的数据原样返回     
+ 158   5                                                                              
+ 159   5                                                                              omega_x = ((RX1_Buffer[2]-48)*10+(RX1_Buffer[3]-48))/10;
+ 160   5                                                                              omega_y = ((RX1_Buffer[5]-48)*10+(RX1_Buffer[6]-48))/10;
  161   5                                                                              
- 162   5                                                                              stop_x  = 0 ;
- 163   5                                                                              stop_y  = 0 ;
- 164   5                                                                      }
- 165   4                                                                      COM1.RX_Cnt = 0;
- 166   4                                                              }
- 167   3                                                      }       
- 168   2                                                      
- 169   2                      //$dxxdyy
- 170   2      
-C51 COMPILER V9.00   MAIN                                                                  04/24/2018 21:39:19 PAGE 4   
+ 162   5                                                                              P_DIR_X = (int)(RX1_Buffer[1]-48);
+ 163   5                                                                              P_DIR_Y = (int)(RX1_Buffer[4]-48);
+ 164   5      
+ 165   5      
+ 166   5                                                                              stop_x  = 0 ;
+ 167   5                                                                              stop_y  = 0 ;
+ 168   5                                                                              
+ 169   5                                                                              PrintString1("Fuck1!\r\n");
+ 170   5                                                                      }
+C51 COMPILER V9.00   MAIN                                                                  05/19/2018 17:52:20 PAGE 4   
 
- 171   2      
- 172   2      
- 173   2                                                      
- 174   2                      LoadPWM(omega_x,omega_y);
- 175   2                      LED = !LED;
- 176   2                      delay_ms(100);
- 177   2      
- 178   2              }
- 179   1      }
- 180          
+ 171   4                                                                      COM1.RX_Cnt = 0;
+ 172   4                                                              }
+ 173   3                                                      }       
+ 174   2                                                      
+ 175   2                      //$dxxdyy
+ 176   2                                      
+ 177   2                      LoadPWM(omega_x,omega_y);
+ 178   2      
+ 179   2              }
+ 180   1      }
  181          
  182          
+ 183          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    696    ----
-   CONSTANT SIZE    =     36    ----
+   CODE SIZE        =    718    ----
+   CONSTANT SIZE    =     59    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =      8      41

@@ -67,7 +67,7 @@ void	UART_config(void)
 	COMx_InitDefine		COMx_InitStructure;					//结构定义
 	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;		//模式,       UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
 	COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;			//使用波特率,   BRT_Timer1, BRT_Timer2 (注意: 串口2固定使用BRT_Timer2)
-	COMx_InitStructure.UART_BaudRate  = 115200ul;			//波特率, 一般 110 ~ 115200
+	COMx_InitStructure.UART_BaudRate  = 230400ul/*115200ul*/;			//波特率, 一般 110 ~ 115200
 	COMx_InitStructure.UART_RxEnable  = ENABLE;				//接收允许,   ENABLE或DISABLE
 	COMx_InitStructure.BaudRateDouble = DISABLE;			//波特率加倍, ENABLE或DISABLE
 	COMx_InitStructure.UART_Interrupt = ENABLE;				//中断允许,   ENABLE或DISABLE
@@ -92,7 +92,10 @@ void	LoadPWM(double omega_x,double omega_y)
 	//omega>=30/80
 	
 	if(omega_x<0.4) 
-		stop_x = 1 ;
+	{	stop_x = 1 ;
+		PWM_x = 0;
+		PrintString1("x,0!\r\n");
+	}
 	else
 	{
 		f_x = omega_x*derect/1.8;
@@ -102,7 +105,11 @@ void	LoadPWM(double omega_x,double omega_y)
 	}
 	
 	
-	if(omega_y<0.4) stop_y = 1 ;
+	if(omega_y<0.4) 
+	{	stop_x = 1 ;
+		PWM_y = 0;
+		PrintString1("y,0!\r\n");
+	}
 	else
 	{
 		f_y = omega_y*derect/1.8;
@@ -117,8 +124,6 @@ void	LoadPWM(double omega_x,double omega_y)
 /**********************************************/
 void main(void)
 {
-	//u8	i;
-	LED = 1;
 
 	omega_x = 1 ;
 	omega_y = 1 ;
@@ -140,7 +145,6 @@ void main(void)
 	while (1)
 	{
 
-	delay_ms(100);
 
 	//PrintString1("Fuck1!\r\n");
 
@@ -158,22 +162,19 @@ void main(void)
 									P_DIR_X = (int)(RX1_Buffer[1]-48);
 									P_DIR_Y = (int)(RX1_Buffer[4]-48);
 
-									
+
 									stop_x  = 0 ;
 									stop_y  = 0 ;
+									
+									PrintString1("Fuck1!\r\n");
 								}
 								COM1.RX_Cnt = 0;
 							}
 						} 	
 						
 		//$dxxdyy
-
-
-
-						
+				
 		LoadPWM(omega_x,omega_y);
-		LED = !LED;
-		delay_ms(100);
 
 	}
 }
