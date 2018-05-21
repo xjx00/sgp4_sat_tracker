@@ -32,7 +32,7 @@ cmd='$100100'
 
 #TEST MODE
 tl = time.localtime(time.time())
-date_julian_5_22_20_37 = 2458261.025694	;
+date_julian_5_22_20_37 = 2458261.359028
 after = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0 - date_julian_5_22_20_37
 
 
