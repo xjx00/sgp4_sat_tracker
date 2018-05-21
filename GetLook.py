@@ -33,10 +33,16 @@ def GetLook(date_now,eciSat):
 
 	eciSite = Eci()
 
+#------------cSite::GetLookAngle()-------------
+
+#------------cEci.cpp-----------------------------
+
+
 	lat  = Site.Position[0];
 	lon  = Site.Position[1];
 	alt  = Site.Position[2];
 
+#----------------date.ToLmst()
 	UT   = math.fmod(date_now + 0.5, 1.0);
 	TU   = (date_now - EPOCH_JAN1_12H_2000 - UT) / 36525.0;
 
@@ -45,6 +51,7 @@ def GetLook(date_now,eciSat):
 
 	if (GMST < 0.0):
 	   GMST += SEC_PER_DAY;  # "wrap" negative modulo value
+#----------------date.ToLmst()
 
 	theta = math.fmod((2*math.pi * (GMST / SEC_PER_DAY))+lon,2*math.pi)
 	c     = 1.0 / math.sqrt(1.0 + F * (F - 2.0) * math.pow(math.sin(lat),2))
@@ -65,7 +72,7 @@ def GetLook(date_now,eciSat):
 	                      0.0, 
 	                      math.sqrt(    math.pow(-mfactor * eciSite.Position[1],2)
 	                     		      + math.pow( mfactor * eciSite.Position[0],2)  )]
-
+#---------cEci.cpp--------------------
 	vecRgRate = [  eciSat.Velocity[0] - eciSite.Velocity[0],
 	               eciSat.Velocity[1] - eciSite.Velocity[1],
 	               eciSat.Velocity[2] - eciSite.Velocity[2]]
@@ -112,4 +119,5 @@ def GetLook(date_now,eciSat):
 
 	el   = el * 180 / math.pi
 
+#------------cSite::GetLookAngle()-------------
 	return az,el
