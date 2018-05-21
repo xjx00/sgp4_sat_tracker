@@ -25,19 +25,10 @@ elevation.init()
 
 
 cmd='$100100'
-#time.localtime(time.time())
-#ime.time()
-#date = satellite.jdsatepoch
-
-
-#TEST MODE
-tl = time.localtime(time.time())
-date_julian_5_22_20_37 = 2458261.359028
-after = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0 - date_julian_5_22_20_37
 
 
 #PID参数设置
-kp=1
+kp=0.8
 
 while True:
 
@@ -46,13 +37,7 @@ while True:
 
 	tl = time.localtime(time.time())
 
-
-	#True Mode 
-	#date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
-
-	#Test Mode
 	date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
-	date_now_julian = date_now_julian - after
 
 	AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
 	#date_now为Julian形式
@@ -60,24 +45,30 @@ while True:
 	#AZ_now = azimuth.read()     #azimuth
 	EL_now = elevation.read()   #elevation
 
+	s1=list(cmd)
+
 	if(EL_now < EL):
-		s1=list(cmd)
 		s1[4] = '1'
 
-		omega_y = kp*(EL-EL_now)
-		s1[5] = str(int(omega_y))
-		s1[6] = str(int(omega_y*10%10))
-
-		cmd=''.join(s1) 
 	else:
-		s1=list(cmd)
 		s1[4] = '0'
 
-		omega_y = kp*(EL-EL_now)
-		s1[5] = str(int(omega_y))
-		s1[6] = str(int(omega_y*10%10))
+	omega_y=kp*abs(EL-EL_now)
 
-		cmd=''.join(s1) 
+	if(omega_y>9.9):
+
+		
+		s1[5] = '9'
+		s1[6] = '9'
+
+	else:
+
+		s1[5] = str(omega_y)[0]
+		s1[6] = str(omega_y)[2]
+
+	cmd=''.join(s1) 
+
+
 
 
 	print 'Goal =',EL

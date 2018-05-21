@@ -81,7 +81,7 @@ class MMA8452Q():
 		#Read data back from MMA8452Q_REG_STATUS(0x00), 7 bytes
 		#Status register, X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB
             
-            for i in range(1,10):
+            for i in range(1,11):
 
 				data = wpi.wiringPiI2CReadReg8(b, 0x01)
 				
@@ -110,7 +110,7 @@ class MMA8452Q():
 					#90/10									180/10
 
 
-				return AZ
+			return AZ
 
 
 

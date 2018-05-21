@@ -58,7 +58,7 @@ class HMC5883L:
             headingDegress = 0
             #float(headingDegress)
 
-            for i in range(1,10):
+            for i in range(1,11):
 
                 X=wpi.wiringPiI2CReadReg8(a,0x03) << 8  | wpi.wiringPiI2CReadReg8(a,0x04)
                 Y=wpi.wiringPiI2CReadReg8(a,0x07) << 8  | wpi.wiringPiI2CReadReg8(a,0x08)
@@ -91,8 +91,8 @@ class HMC5883L:
                     heading -= 2 * math.pi;
 
 
-                headingDegress = headingDegress + heading * 18/math.pi;#180/10
-
+                headingDegress = headingDegress + heading * 18.0/math.pi;#180/10
+                #headingDegress = heading * 180/math.pi;
 
             return headingDegress
 
