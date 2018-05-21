@@ -29,6 +29,12 @@ cmd='$100100'
 #ime.time()
 #date = satellite.jdsatepoch
 
+
+#TEST MODE
+date_julian_5_22_20_37 = 2458261.025694	;
+after = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0 - date_julian_5_22_20_37
+
+
 #PID参数设置
 kp=1
 
@@ -40,8 +46,12 @@ while True:
 	tl = time.localtime(time.time())
 
 
-	date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
+	#True Mode 
+	#date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
 
+	#Test Mode
+	date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
+	date_now_julian = date_now_julian - after
 
 	AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
 	#date_now为Julian形式
