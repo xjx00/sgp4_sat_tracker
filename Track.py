@@ -1,34 +1,43 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#from HMC5883L import HMC5883L
+from HMC5883L import HMC5883L
 from MMA8452Q import MMA8452Q
 from numpy import deg2rad
 
-import serial
-import time
-import GetLook
-import math
 import GetSat
+import GetLook
+import time
 import jdcal
+import math
+import serial
+
 
 ser=serial.Serial("/dev/ttyUSB0",230400,timeout=0.5)
 
 
-#azimuth = HMC5883L()
+azimuth = HMC5883L()
 elevation 	= MMA8452Q()
 
-
-#azimuth.init()
+azimuth.init()
 elevation.init()
 
-
-
+#---setup----
 cmd='$100100'
 
 
-#PID参数设置
-kp=0.8
+#---set PID参数----
+omega_x = 0
+omega_y = 0
+
+kp_x = 0.8
+kp_y = 0.8
+
+
+#ki_x = 
+#ki_y = 
+#kd_x =
+#kd_y =
 
 while True:
 
@@ -42,10 +51,36 @@ while True:
 	AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
 	#date_now为Julian形式
 
-	#AZ_now = azimuth.read()     #azimuth
+	AZ_now = azimuth.read()     #azimuth
 	EL_now = elevation.read()   #elevation
 
 	s1=list(cmd)
+
+
+
+#--------set omega_x-----------
+
+	if(AZ_now < AZ):
+		s1[1] = '1'
+
+	else:
+		s1[1] = '0'
+
+	omega_x=kp_x*abs(AZ-AZ_now)
+
+
+	if(omega_x>9.9):
+
+		s1[2] = '9'
+		s1[3] = '9'
+
+	else:
+
+		s1[2] = str(omega_x)[0]
+		s1[3] = str(omega_x)[2]
+
+
+#--------set omega_y-----------
 
 	if(EL_now < EL):
 		s1[4] = '1'
@@ -53,11 +88,11 @@ while True:
 	else:
 		s1[4] = '0'
 
-	omega_y=kp*abs(EL-EL_now)
+	omega_y=kp_y*abs(EL-EL_now)
+
 
 	if(omega_y>9.9):
 
-		
 		s1[5] = '9'
 		s1[6] = '9'
 
@@ -66,13 +101,16 @@ while True:
 		s1[5] = str(omega_y)[0]
 		s1[6] = str(omega_y)[2]
 
+
+#--------------set Command-------
 	cmd=''.join(s1) 
 
+	print 'AZ =',AZ
+	print 'AZ_now =',AZ_now
 
+	print 'EL =',EL
+	print 'EL_now =',EL_now
 
-
-	print 'Goal =',EL
-	print 'Now =',EL_now
 	print cmd
 
 
@@ -103,8 +141,6 @@ while True:
 
  #       ser.isOpen() #看看这个串口是否已经被打开
 
-
-#ser.write(chr(40))
 
 
 #print( c + " 的ASCII 码为", ord(c))

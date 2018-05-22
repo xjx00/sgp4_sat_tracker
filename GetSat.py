@@ -43,9 +43,9 @@ def get_eciSat():
   date_now = time.localtime(tt)
 
   P,V = satellite.propagate(date_now.tm_year, date_now.tm_mon, date_now.tm_mday,
-                               date_now.tm_hour, date_now.tm_min, date_now.tm_sec+tt%1)
+                               date_now.tm_hour, date_now.tm_min, date_now.tm_sec + tt%1 )
 
-  ##list & tuple
+  #list & tuple
   eciSat.Position = list(P)
   eciSat.Velocity = list(V)
   

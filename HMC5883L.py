@@ -12,30 +12,30 @@ class HMC5883L:
 
         a=wpi.wiringPiI2CSetup(0x1e)
 
-        	#set range
+            #set range
         wpi.wiringPiI2CWriteReg8(a,0x01, 0b001 << 5);
 
 
 
-        	#setMeasurementMode
+            #setMeasurementMode
 
         value = wpi.wiringPiI2CReadReg8(a,0x02);
         value &= 0b11111100;
-        value |= 0b00;	
+        value |= 0b00;  
 
         wpi.wiringPiI2CWriteReg8(a,0x02, value);
 
 
-        	#setDataRate
+            #setDataRate
 
         value = wpi.wiringPiI2CReadReg8(a,0x00);
         value &= 0b11100011;
-        value |= (0b101 << 2);	
+        value |= (0b101 << 2);  
 
         wpi.wiringPiI2CWriteReg8(a,0x00, value);
 
 
-        	#setSamples
+            #setSamples
 
         value = wpi.wiringPiI2CReadReg8(a,0x00);
         value &= 0b10011111;
@@ -47,7 +47,7 @@ class HMC5883L:
 
 
 
-    	#compass
+        #azimuth
 
     def read(self):
 
