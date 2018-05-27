@@ -103,10 +103,10 @@ void	LoadPWM(double omega_x,double omega_y)
 		t_x = t_x/1000;
 		PWM_x = (int)(65536-t_x*MAIN_Fosc);
 	}
-	
+		
 	
 	if(omega_y<0.4) 
-	{	stop_x = 1 ;
+	{	stop_y = 1 ;
 		PWM_y = 0;
 
 	}

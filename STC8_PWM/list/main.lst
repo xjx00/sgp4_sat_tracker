@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   MAIN                                                                  05/24/2018 21:42:12 PAGE 1   
+C51 COMPILER V9.00   MAIN                                                                  05/27/2018 22:12:11 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
@@ -63,7 +63,7 @@ line level    source
              -Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
   48   1              TIM_InitStructure.TIM_Polity    = PolityHigh;                   //指定中断优先级, PolityHigh,PolityLow
   49   1              TIM_InitStructure.TIM_Interrupt = ENABLE;                               //中断是否允许,   ENABLE或DISABLE
-C51 COMPILER V9.00   MAIN                                                                  05/24/2018 21:42:12 PAGE 2   
+C51 COMPILER V9.00   MAIN                                                                  05/27/2018 22:12:11 PAGE 2   
 
   50   1              TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;                 //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_C
              -LOCK_Ext
@@ -127,10 +127,10 @@ line level    source
  105   2              }
  106   1              
  107   1              
-C51 COMPILER V9.00   MAIN                                                                  05/24/2018 21:42:12 PAGE 3   
+C51 COMPILER V9.00   MAIN                                                                  05/27/2018 22:12:11 PAGE 3   
 
  108   1              if(omega_y<0.4) 
- 109   1              {       stop_x = 1 ;
+ 109   1              {       stop_y = 1 ;
  110   2                      PWM_y = 0;
  111   2      
  112   2              }
@@ -191,7 +191,7 @@ line level    source
  167   5                                                                              stop_y  = 0 ;
  168   5                                                                              
  169   5                                                                              PrintString1("a\r\n");
-C51 COMPILER V9.00   MAIN                                                                  05/24/2018 21:42:12 PAGE 4   
+C51 COMPILER V9.00   MAIN                                                                  05/27/2018 22:12:11 PAGE 4   
 
  170   5                                                                      }
  171   4                                                                      COM1.RX_Cnt = 0;
