@@ -109,4 +109,4 @@ class MMA8452Q():
 
 				AZ=AZ+9/5.0-math.acos(float(yAccl)/float(1024))*18/5.0/math.pi
 					#90/10									180/10
-	    	return AZ
+	    return AZ
