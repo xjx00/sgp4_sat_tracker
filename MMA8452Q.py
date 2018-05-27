@@ -76,6 +76,7 @@ class MMA8452Q():
 	
 	def read(self):
 
+
             AZ = 0
 
 		#Read data back from MMA8452Q_REG_STATUS(0x00), 7 bytes

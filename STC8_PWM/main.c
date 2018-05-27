@@ -94,7 +94,7 @@ void	LoadPWM(double omega_x,double omega_y)
 	if(omega_x<0.4) 
 	{	stop_x = 1 ;
 		PWM_x = 0;
-		PrintString1("x,0!\r\n");
+
 	}
 	else
 	{
@@ -108,7 +108,7 @@ void	LoadPWM(double omega_x,double omega_y)
 	if(omega_y<0.4) 
 	{	stop_x = 1 ;
 		PWM_y = 0;
-		PrintString1("y,0!\r\n");
+
 	}
 	else
 	{
@@ -166,7 +166,7 @@ void main(void)
 									stop_x  = 0 ;
 									stop_y  = 0 ;
 									
-									PrintString1("Fuck1!\r\n");
+									PrintString1("a\r\n");
 								}
 								COM1.RX_Cnt = 0;
 							}

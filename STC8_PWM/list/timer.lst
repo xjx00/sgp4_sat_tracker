@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   TIMER                                                                 05/19/2018 17:52:20 PAGE 1   
+C51 COMPILER V9.00   TIMER                                                                 05/24/2018 21:42:12 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE TIMER
@@ -7,6 +7,8 @@ COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE timer.c OPTIMIZE(8,SPEED) BROWSE
                     -st) OBJECT(.\list\timer.obj)
 
 line level    source
+
+*** WARNING C500 IN LINE 1 OF TIMER.C: LICENSE ERROR (R208: RENEW LICENSE ID CODE (LIC))
 
    1          #include        "USART1.h"
    2          #include        "timer.h"
@@ -61,9 +63,9 @@ line level    source
   51   1      
   52   1              if(TIM == Timer0)
   53   1              {
-  54   2                      TR0 = 0;                //停止计数
-C51 COMPILER V9.00   TIMER                                                                 05/19/2018 17:52:20 PAGE 2   
+C51 COMPILER V9.00   TIMER                                                                 05/24/2018 21:42:12 PAGE 2   
 
+  54   2                      TR0 = 0;                //停止计数
   55   2                      if(TIMx->TIM_Interrupt == ENABLE)               ET0 = 1;        //允许中断
   56   2                      else                                                                    ET0 = 0;        //禁止中断
   57   2                      if(TIMx->TIM_Polity == PolityHigh)              PT0 = 1;        //高优先级中断
@@ -125,9 +127,9 @@ line level    source
  111   2                      if(TIMx->TIM_Run == ENABLE)     AUXR |=  (1<<4);        //开始运行
  112   2                      return  0;              //成功
  113   2              }
- 114   1              return 2;       //错误
-C51 COMPILER V9.00   TIMER                                                                 05/19/2018 17:52:20 PAGE 3   
+C51 COMPILER V9.00   TIMER                                                                 05/24/2018 21:42:12 PAGE 3   
 
+ 114   1              return 2;       //错误
  115   1      }
 
 
@@ -142,4 +144,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

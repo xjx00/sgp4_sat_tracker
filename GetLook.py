@@ -18,8 +18,8 @@ class Eci(object):
 	Velocity=[]
 
 #Site Data
-Lat = 30.463
-Lon = 114.43
+Lat = 30.466
+Lon = 114.4252
 kmAlt = 0.05
 
 
