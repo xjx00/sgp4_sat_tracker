@@ -16,8 +16,14 @@ import time
 import jdcal
 import math
 import serial
+import GetDirection
 
-os.system('sudo date  --s="2014-08-31 14:42:00"')
+
+
+os.system('sudo date  --s="2018-05-27 19:59:00"')
+#os.system('sudo date  --s="2018-05-28 20:24:20"')
+#最大仰角23.1°
+#19:59:00 开始
 
 #---setup----
 ser=serial.Serial("/dev/ttyUSB0",230400,timeout=0.5)
@@ -29,6 +35,10 @@ azimuth.init()
 elevation.init()
 
 cmd='$100100'
+
+s1=list(cmd)
+
+f=open('data.txt','w')
 
 
 #---set PID参数----
@@ -42,7 +52,8 @@ kd_y = 0.0
 
 
 
-
+AZ_old = 0
+EL_old = 0
 
 
 
@@ -52,7 +63,14 @@ omega_x = 0
 omega_y = 0
 
 
+#---------------Direction Choose-----
 
+
+
+
+
+
+#-----------Big Loop
 while True:
 
 	eciSat = GetSat.get_eciSat()
@@ -64,6 +82,10 @@ while True:
 
 	AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
 	#date_now为Julian形式
+	AZ = AZ + 15.0
+
+	if(AZ>360):
+		AZ = AZ - 360.0
 
 	AZ_now = azimuth.read()     #azimuth
 	EL_now = elevation.read()   #elevation
@@ -71,19 +93,12 @@ while True:
 	e_AZ = AZ - AZ_now
 	e_EL = EL - EL_now
 
-	s1=list(cmd)
-
-
-
+	s1[1] ,s1[4] = GetDirection.GetDirection( AZ_old , AZ , EL_old , EL)
 #--------set omega_x-----------
 
-	if(AZ_now < AZ):
-		s1[1] = '1'
 
-	else:
-		s1[1] = '0'
 
-	omega_x = kp_x*abs(AZ-AZ_now)
+	omega_x = kp_x*abs(e_AZ)
 
 
 	if(omega_x>9.9):
@@ -96,12 +111,22 @@ while True:
 		s1[2] = str(omega_x)[0]
 		s1[3] = str(omega_x)[2]
 
+	if( AZ > AZ_old and AZ_now > AZ):					#上升阶段,超调
+
+		s1[5] = '0'
+		s1[6] = '0'
+
+	if( AZ < AZ_old and AZ_now < AZ):					#下降阶段,超调
+
+		s1[5] = '0'
+		s1[6] = '0'
+
 
 #--------set omega_y-----------
 
 
 
-	omega_y = kp_y*abs(EL-EL_now)
+	omega_y = kp_y * (abs(e_EL)+0.6)
 
 
 	if(omega_y>9.9):
@@ -114,13 +139,16 @@ while True:
 		s1[5] = str(omega_y)[0]
 		s1[6] = str(omega_y)[2]
 
-	if(EL_now < EL):
-		s1[4] = '1'
+	if( EL > EL_old and EL_now > EL):					#上升阶段,超调
 
-	else:
-		s1[4] = '1'
 		s1[5] = '0'
 		s1[6] = '0'
+
+	if( EL < EL_old and EL_now < EL):					#下降阶段,超调
+
+		s1[5] = '0'
+		s1[6] = '0'
+
 #--------------set Command-------
 	cmd=''.join(s1) 
 
@@ -130,12 +158,20 @@ while True:
 	print 'AZ_now =',AZ_now
 
 	print 'EL =',EL
-	print 'EL_now =',EL_now
+	#print 'EL_now =',EL_now
 
 	print cmd
 
+	f.write(str(AZ)+','+str(AZ_now)+',')
+
+	AZ_old = AZ
+	EL_old = EL
 
 
 	ser.write(cmd)
 	time.sleep(0.1)
+
+
+
+
 

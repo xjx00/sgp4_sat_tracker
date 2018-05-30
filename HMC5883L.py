@@ -51,8 +51,8 @@ class HMC5883L:
 
     def read(self):
 
-            xOffset = float(141);
-            yOffset = float(167);
+            xOffset = float(-10.0);
+            yOffset = float(-547.0);
             mgPerDigit = float(0.92);
 
             headingDegress = 0
@@ -93,6 +93,8 @@ class HMC5883L:
 
                 headingDegress = headingDegress + heading * 18.0/math.pi;#180/10
                 #headingDegress = heading * 180/math.pi;
+
+            headingDegress = 360.0 - headingDegress
 
             return headingDegress
 
