@@ -26,6 +26,7 @@ print "Do you want to update the Satellite Data?[Y/n]"
 update = raw_input()
 if update == 'Y'or update == 'y':
 	os.system(" wget http://www.celestrak.com/NORAD/elements/amateur.txt ")
+	os.system(" wget http://www.celestrak.com/NORAD/elements/noaa.txt ") 
 
 
 print "Please enter the name of the Satellite:"
