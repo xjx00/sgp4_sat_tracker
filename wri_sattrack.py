@@ -29,4 +29,5 @@ while True:
 	#if you want to use serial
 	#ser.write(Whatever you need)
 
-
+	#If you need to control the frequency of date out:
+	#time.sleep()                 #Second
