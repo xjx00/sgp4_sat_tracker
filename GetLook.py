@@ -134,4 +134,4 @@ def GetLook(date_now,eciSat):
 	el   = el * 180 / math.pi
 
 #------------cSite::GetLookAngle()-------------
-	return az,el
+	return round(az,2),round(el,2)

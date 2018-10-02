@@ -32,7 +32,6 @@ f = open("amateur.txt","r")
 while True:
   line=f.readline()
   if line.find(name) != -1:
-    print line
     line1 = f.readline()[0:68]
     line2 = f.readline()[0:68]
     break
