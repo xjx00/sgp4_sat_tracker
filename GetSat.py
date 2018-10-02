@@ -4,6 +4,7 @@
 
 import math
 import time
+import os
 
 from sgp4.earth_gravity import wgs72
 from sgp4.ext import invjday, newtonnu, rv2coe
