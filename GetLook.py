@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import math
-from numpy import deg2rad
 
 
 F                        =        1.0 / 298.26
@@ -18,7 +17,6 @@ class Eci(object):
 	Velocity=[]
 
 #Site Data
-
 print "Please enter your Latitude(deg):"
 Lat = float(raw_input())
 print "Please enter your Longitude(deg):"
