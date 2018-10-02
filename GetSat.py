@@ -20,11 +20,28 @@ class Eci(object):
 
 
 #Sat Data
+print "Do you want to update the Satellite Data?[Y/n]"
+update = raw_input()
+if update == 'Y'or update == 'y':
+  os.system(" wget http://www.celestrak.com/NORAD/elements/amateur.txt ")
+  os.system(" wget http://www.celestrak.com/NORAD/elements/noaa.txt ") 
 
+print "Please enter the name of the Satellite:"
+name = str.upper(raw_input())
+f = open("amateur.txt","r")
+while True:
+  line=f.readline()
+  if line.find(name) != -1:
+    print line
+    line1 = f.readline()[0:68]
+    line2 = f.readline()[0:68]
+    break
+
+'''
+#Sat Data
 line1 = ('1 07530U 74089B   18146.86533424 -.00000045  00000-0 -12660-5 0  9999')
 line2 = ('2 07530 101.6853 114.5065 0012343  18.5684  35.1273 12.53632685991694')
-
-
+'''
 
 satellite = twoline2rv(line1, line2, wgs72)
 
