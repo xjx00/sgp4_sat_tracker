@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import platform
+import requests
 import math
 import time
-import os
 
 from sgp4.earth_gravity import wgs72
 from sgp4.ext import invjday, newtonnu, rv2coe
@@ -24,8 +24,19 @@ class Eci(object):
 print "Do you want to update the Satellite Data?[Y/n]"
 update = raw_input()
 if update == 'Y'or update == 'y':
-  os.system(" wget http://www.celestrak.com/NORAD/elements/amateur.txt ")
-  os.system(" wget http://www.celestrak.com/NORAD/elements/noaa.txt ") 
+
+  r=requests.get("http://www.celestrak.com/NORAD/elements/amateur.txt")
+  with open("amateur.txt", "wb") as code:
+   code.write(r.content)
+
+  r=requests.get("http://www.celestrak.com/NORAD/elements/noaa.txt")
+  with open("noaa.txt", "wb") as code:
+   code.write(r.content)
+
+  r=requests.get("http://www.celestrak.com/NORAD/elements/stations.txt")
+  with open("stations.txt", "wb") as code:
+   code.write(r.content)
+
 
 print "Please enter the name of the Satellite:"
 name = str.upper(raw_input())
@@ -35,7 +46,30 @@ while True:
   if line.find(name) != -1:
     line1 = f.readline()[0:68]
     line2 = f.readline()[0:68]
+    f.close()
     break
+  if line == "":
+    break
+f = open("noaa.txt","r")
+while True:
+  line=f.readline()
+  if line.find(name) != -1:
+    line1 = f.readline()[0:68]
+    line2 = f.readline()[0:68]
+    f.close()
+    break
+  if line == "":
+    break  
+f = open("stations.txt","r")
+while True:
+  line=f.readline()
+  if line.find(name) != -1:
+    line1 = f.readline()[0:68]
+    line2 = f.readline()[0:68]
+    f.close()
+    break
+  if line == "":
+    break    
 
 '''
 #Sat Data
@@ -56,13 +90,14 @@ def get_eciSat():
 #time.struct_time(tm_year=2018, tm_mon=2, tm_mday=8, 
 #   tm_hour=13, tm_min=37, tm_sec=31, tm_wday=3, tm_yday=39, tm_isdst=0)
 
-  tt = time.time()
-  if platform.architecture()[1].find("Windows") != -1:
-    tt = tt - 8*3600
-  date_now = time.localtime(tt)
+#  tt = time.time()
+#  date_now = time.localtime(tt)
 
-  P,V = satellite.propagate(date_now.tm_year, date_now.tm_mon, date_now.tm_mday,
-                               date_now.tm_hour, date_now.tm_min, date_now.tm_sec + tt%1 )
+
+  tt =time.time()
+  date_now_utc = time.gmtime(tt)
+  P,V = satellite.propagate(date_now_utc.tm_year, date_now_utc.tm_mon, date_now_utc.tm_mday,
+                               date_now_utc.tm_hour, date_now_utc.tm_min, date_now_utc.tm_sec + tt%1 )
 
   #list & tuple
   eciSat.Position = list(P)
