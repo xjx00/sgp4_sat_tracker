@@ -18,7 +18,7 @@ while True:
 
 	eciSat = GetSat.get_eciSat()
 
-	tl = time.localtime(time.time())
+	tl = time.gmtime(time.time())
 
 	date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
 
