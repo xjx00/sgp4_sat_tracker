@@ -8,7 +8,7 @@ to make the antenna follow the sat.
 Run well on Linux(use UTC).  
 Just python it!  
 
-sudo pip install sgp4 jdcal python-pyserial  
+sudo pip install sgp4 jdcal python-pyserial requests
 python wri_sattrack.py  
 
 Follow the guide to enter the name of the Sat you want to follow  
