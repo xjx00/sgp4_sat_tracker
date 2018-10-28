@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
+import platform
 import math
 import time
 import os
@@ -56,7 +56,9 @@ def get_eciSat():
 #time.struct_time(tm_year=2018, tm_mon=2, tm_mday=8, 
 #   tm_hour=13, tm_min=37, tm_sec=31, tm_wday=3, tm_yday=39, tm_isdst=0)
 
-  tt=time.time()
+  tt = time.time()
+  if platform.architecture()[1].find("Windows") != -1:
+    tt = tt - 8*3600
   date_now = time.localtime(tt)
 
   P,V = satellite.propagate(date_now.tm_year, date_now.tm_mon, date_now.tm_mday,
