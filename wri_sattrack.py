@@ -27,7 +27,7 @@ while True:
 	print AZ,EL
 	
 	#if you want to use serial
-	#ser.write(Whatever you need)
+	#ser.write("Whatever you need")
 
 	#If you need to control the frequency of date out:
 	#time.sleep()                 #Second

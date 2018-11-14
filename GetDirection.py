@@ -2,12 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-import GetSat
-import GetLook
-import time
-import jdcal
-
-
 
 def GetDirection( AZ_old , AZ , EL_old , EL):
 

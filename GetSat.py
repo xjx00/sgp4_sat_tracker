@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import math
 import time
 import sys
 
@@ -17,59 +16,40 @@ class Eci(object):
 	Velocity=[]
 
 
-
+file_list = ('amateur.txt','noaa.txt','stations.txt')
 
 
 #Sat Data
 print "Do you want to update the Satellite Data?[Y/n]"
 update = raw_input()
+
 if update == 'Y'or update == 'y':
+  for i in file_list:
+    r=requests.get("http://www.celestrak.com/NORAD/elements/"+i)
+    with open(sys.path[0]+"/"+i, "wb") as code:
+     code.write(r.content)
 
-  r=requests.get("http://www.celestrak.com/NORAD/elements/amateur.txt")
-  with open(sys.path[0]+"/amateur.txt", "wb") as code:
-   code.write(r.content)
-
-  r=requests.get("http://www.celestrak.com/NORAD/elements/noaa.txt")
-  with open(sys.path[0]+"/noaa.txt", "wb") as code:
-   code.write(r.content)
-
-  r=requests.get("http://www.celestrak.com/NORAD/elements/stations.txt")
-  with open(sys.path[0]+"/stations.txt", "wb") as code:
-   code.write(r.content)
 
 
 print "Please enter the name of the Satellite:"
 name = str.upper(raw_input())
-f = open(sys.path[0]+"/amateur.txt","r")
-while True:
-  line=f.readline()
-  if line.find(name) != -1:
-    line1 = f.readline()[0:68]
-    line2 = f.readline()[0:68]
-    f.close()
-    break
-  if line == "":
-    break
-f = open(sys.path[0]+"/noaa.txt","r")
-while True:
-  line=f.readline()
-  if line.find(name) != -1:
-    line1 = f.readline()[0:68]
-    line2 = f.readline()[0:68]
-    f.close()
-    break
-  if line == "":
-    break  
-f = open(sys.path[0]+"/stations.txt","r")
-while True:
-  line=f.readline()
-  if line.find(name) != -1:
-    line1 = f.readline()[0:68]
-    line2 = f.readline()[0:68]
-    f.close()
-    break
-  if line == "":
-    break    
+
+for i in range(3):
+  for i in range(len(file_list)):
+    f = open(sys.path[0]+"/"+file_list[i],"r")
+    while True:
+      line=f.readline()
+      if line.find(name) != -1:
+        line1 = f.readline()[0:68]
+        line2 = f.readline()[0:68]
+        f.close()
+        break
+      if line == "":
+        break
+    if ('line1' in dir())==False and i==len(file_list)-1:
+      print "No date about this Sat.Please Enter The Correct Sat Name."
+      name = str.upper(raw_input())
+
 
 '''
 #Sat Data
@@ -85,13 +65,6 @@ eciSat  = Eci()
 
 
 def get_eciSat():
-
-
-#time.struct_time(tm_year=2018, tm_mon=2, tm_mday=8, 
-#   tm_hour=13, tm_min=37, tm_sec=31, tm_wday=3, tm_yday=39, tm_isdst=0)
-
-#  tt = time.time()
-#  date_now = time.localtime(tt)
 
 
   tt =time.time()
