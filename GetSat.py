@@ -4,6 +4,7 @@
 import requests
 import math
 import time
+import sys
 
 from sgp4.earth_gravity import wgs72
 from sgp4.ext import invjday, newtonnu, rv2coe
@@ -25,21 +26,21 @@ update = raw_input()
 if update == 'Y'or update == 'y':
 
   r=requests.get("http://www.celestrak.com/NORAD/elements/amateur.txt")
-  with open("amateur.txt", "wb") as code:
+  with open(sys.path[0]+"/amateur.txt", "wb") as code:
    code.write(r.content)
 
   r=requests.get("http://www.celestrak.com/NORAD/elements/noaa.txt")
-  with open("noaa.txt", "wb") as code:
+  with open(sys.path[0]+"/noaa.txt", "wb") as code:
    code.write(r.content)
 
   r=requests.get("http://www.celestrak.com/NORAD/elements/stations.txt")
-  with open("stations.txt", "wb") as code:
+  with open(sys.path[0]+"/stations.txt", "wb") as code:
    code.write(r.content)
 
 
 print "Please enter the name of the Satellite:"
 name = str.upper(raw_input())
-f = open("amateur.txt","r")
+f = open(sys.path[0]+"/amateur.txt","r")
 while True:
   line=f.readline()
   if line.find(name) != -1:
@@ -49,7 +50,7 @@ while True:
     break
   if line == "":
     break
-f = open("noaa.txt","r")
+f = open(sys.path[0]+"/noaa.txt","r")
 while True:
   line=f.readline()
   if line.find(name) != -1:
@@ -59,7 +60,7 @@ while True:
     break
   if line == "":
     break  
-f = open("stations.txt","r")
+f = open(sys.path[0]+"/stations.txt","r")
 while True:
   line=f.readline()
   if line.find(name) != -1:
