@@ -10,13 +10,13 @@ Just python it!
 $ sudo pip install sgp4 jdcal python-pyserial requests  
 $ python wri_sattrack.py  
 ```
-Follow the guide to enter the name of the Sat you want to follow  
-and where you are.  
+Follow the guide to enter the name of the Sat you want to follow and your Coordinates.  
 
-You can change the code to choose "print" or "ser.write".
+You can change the code to make the data output by `print()` or `ser.write()` .
 
 ## sat_tracker
 Use SGP4 model,HMC5883L and MMA8452Q on Raspberry Pi  
 ```
-sudo pip install sgp4 jdcal python-pyserial requests  
+$ sudo pip install sgp4 jdcal python-pyserial requests  
+$ python track.py
 ```
