@@ -13,9 +13,8 @@ class HMC5883L:
         a=wpi.wiringPiI2CSetup(0x1e)
 
             #set range
+
         wpi.wiringPiI2CWriteReg8(a,0x01, 0b001 << 5);
-
-
 
             #setMeasurementMode
 
@@ -25,7 +24,6 @@ class HMC5883L:
 
         wpi.wiringPiI2CWriteReg8(a,0x02, value);
 
-
             #setDataRate
 
         value = wpi.wiringPiI2CReadReg8(a,0x00);
@@ -33,7 +31,6 @@ class HMC5883L:
         value |= (0b101 << 2);  
 
         wpi.wiringPiI2CWriteReg8(a,0x00, value);
-
 
             #setSamples
 
@@ -51,6 +48,7 @@ class HMC5883L:
 
     def read(self):
 
+            #Offset Set
             xOffset = float(-10.0);
             yOffset = float(-547.0);
             mgPerDigit = float(0.92);

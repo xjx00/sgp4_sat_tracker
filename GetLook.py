@@ -31,14 +31,12 @@ Site.Position =    [ Lat*math.pi/180 , Lon*math.pi/180 , kmAlt ]
 
 
 '''
+
 #Site Data
-Lat = 33.33         #Latitude
-Lon = 66.66       #Longitude
+Lat = 33.33       	  #Latitude
+Lon = 66.66     	  #Longitude
 kmAlt = 99.99         #Altitude
 
-#Sat Data
-line1 = ('1 07530U 74089B   18146.86533424 -.00000045  00000-0 -12660-5 0  9999')
-line2 = ('2 07530 101.6853 114.5065 0012343  18.5684  35.1273 12.53632685991694')
 '''
 
 

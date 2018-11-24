@@ -34,21 +34,21 @@ if update == 'Y'or update == 'y':
 print "Please enter the name of the Satellite:"
 name = str.upper(raw_input())
 
-for i in range(3):
-  for i in range(len(file_list)):
-    f = open(sys.path[0]+"/"+file_list[i],"r")
-    while True:
-      line=f.readline()
-      if line.find(name) != -1:
-        line1 = f.readline()[0:68]
-        line2 = f.readline()[0:68]
-        f.close()
-        break
-      if line == "":
-        break
-    if ('line1' in dir())==False and i==len(file_list)-1:
-      print "No date about this Sat.Please Enter The Correct Sat Name."
-      name = str.upper(raw_input())
+
+for i in range(len(file_list)):
+  f = open(sys.path[0]+"/"+file_list[i],"r")
+  while True:
+    line=f.readline()
+    if line.find(name) != -1:
+      line1 = f.readline()[0:68]
+      line2 = f.readline()[0:68]
+      f.close()
+      break
+    if line == "":
+      break
+  if ('line1' in dir())==False and i==len(file_list)-1:
+    print "No date about this Sat.Please Enter The Correct Sat Name."
+    name = str.upper(raw_input())
 
 
 '''

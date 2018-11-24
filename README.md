@@ -5,10 +5,10 @@ and control the stepper motors
 to make the antenna follow the sat.  
 
 # wri_sattrack
-Run well on both operating systems of Linux and Windows.
+Run well on both operating systems of Linux and Windows.  
 Just python it!  
 
-sudo pip install sgp4 jdcal python-pyserial requests
+sudo pip install sgp4 jdcal python-pyserial requests  
 python wri_sattrack.py  
 
 Follow the guide to enter the name of the Sat you want to follow  
