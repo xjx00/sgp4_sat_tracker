@@ -1,4 +1,6 @@
 # SGP4_SAT_TRACKER
+Author: BG6WRI  
+Email: <bg6wri@gmail.com>  
 
 ## wri_sattrack
 Run well on both Linux & Windows.  
@@ -13,7 +15,8 @@ and where you are.
 
 You can change the code to choose "print" or "ser.write".
 
-## sgp4_sat_tracker
+## sat_tracker
 Use SGP4 model,HMC5883L and MMA8452Q on Raspberry Pi  
-
+```
 sudo pip install sgp4 jdcal python-pyserial requests  
+```
