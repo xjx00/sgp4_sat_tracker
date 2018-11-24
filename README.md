@@ -3,7 +3,7 @@ Author: BG6WRI
 Email: <bg6wri@gmail.com>  
 
 ## wri_sattrack
-Run well on both Linux & Windows.  
+Run successfully on both Linux & Windows.  
 Just python it!  
 
 ```
