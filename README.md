@@ -10,7 +10,7 @@ Just python it!
 $ sudo pip install sgp4 jdcal python-pyserial requests  
 $ python wri_sattrack.py  
 ```
-Follow the guide to enter the name of the Sat you want to follow and your Coordinates.  
+Follow the guide to enter the name of the Sat you want to track and enter your Coordinates.  
 
 You can change the code to make the data output by `print()` or `ser.write()` .
 
