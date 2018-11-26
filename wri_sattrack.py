@@ -4,6 +4,7 @@
 import time
 import jdcal
 import serial
+import GetUserData
 import GetSat
 import GetLook
 
@@ -12,7 +13,14 @@ import GetLook
 #if you want to use serial.
 #ser = serial.Serial('/dev/ttyUSB0',9600)
 
+	
 
+GetUserData.update("shell")
+
+line1,line2,Lat,Lon,kmAlt = GetUserData.get_user_data("shell",'','','','' )
+
+GetSat.generate(line1,line2)
+GetLook.generate(Lat,Lon,kmAlt)
 
 while True:
 

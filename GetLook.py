@@ -16,17 +16,13 @@ class Eci(object):
 	Position=[]
 	Velocity=[]
 
-#Site Data
-print "Please enter your Latitude(deg):"
-Lat = float(raw_input())
-print "Please enter your Longitude(deg):"
-Lon = float(raw_input())
-print "Please enter your Altitude(km):"
-kmAlt = float(raw_input())
-
 
 Site          =      Eci()
-Site.Position =    [ Lat*math.pi/180 , Lon*math.pi/180 , kmAlt ]
+
+
+
+def generate(Lat,Lon,kmAlt):
+	Site.Position =    [ Lat*math.pi/180 , Lon*math.pi/180 , kmAlt ]
 
 
 

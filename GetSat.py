@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import requests
 import time
 import sys
 
@@ -16,56 +15,23 @@ class Eci(object):
 	Velocity=[]
 
 
-file_list = ('amateur.txt','noaa.txt','stations.txt')
-
-
-#Sat Data
-print "Do you want to update the Satellite Data?[Y/n]"
-update = raw_input()
-
-if update == 'Y'or update == 'y':
-  for i in file_list:
-    r=requests.get("http://www.celestrak.com/NORAD/elements/"+i)
-    with open(sys.path[0]+"/"+i, "wb") as code:
-     code.write(r.content)
-
-
-
-print "Please enter the name of the Satellite:"
-name = str.upper(raw_input())
-
-
-for i in range(len(file_list)):
-  f = open(sys.path[0]+"/"+file_list[i],"r")
-  while True:
-    line=f.readline()
-    if line.find(name) != -1:
-      line1 = f.readline()[0:68]
-      line2 = f.readline()[0:68]
-      f.close()
-      break
-    if line == "":
-      break
-  if ('line1' in dir())==False and i==len(file_list)-1:
-    print "No date about this Sat.Please Enter The Correct Sat Name."
-    name = str.upper(raw_input())
-
-
 '''
 #Sat Data
 line1 = ('1 07530U 74089B   18146.86533424 -.00000045  00000-0 -12660-5 0  9999')
 line2 = ('2 07530 101.6853 114.5065 0012343  18.5684  35.1273 12.53632685991694')
 '''
 
-satellite = twoline2rv(line1, line2, wgs72)
+
 
 
 eciSat  = Eci()
 
-
+def generate(line1,line2):
+  
+    global satellite
+    satellite = twoline2rv(line1, line2, wgs72)
 
 def get_eciSat():
-
 
   tt =time.time()
   date_now_utc = time.gmtime(tt)

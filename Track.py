@@ -49,7 +49,7 @@ EL_old = 0
 
 
 
-#-----------Big Loop
+#----------------Big Loop----------------
 while True:
 
 	eciSat = GetSat.get_eciSat()
