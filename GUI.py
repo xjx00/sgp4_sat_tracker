@@ -86,19 +86,25 @@ ButtonUpdate.grid(  row=0, column=2, padx=20, pady=5)
 
 
 #UserData
-Label(root, text="Sat Name:").grid(	row=1)
-Label(root, text="Lon:").grid(		row=2)
-Label(root, text="Lat:").grid(		row=3)
-Label(root, text="kmAlt:").grid(	row=4)
-Label(root, text="kmAlt:").grid(	row=4)
+Label(root, text="Sat Name:").grid(		row=1)
+Label(root, text="Lon:").grid(			row=2)
+Label(root, text="Lat:").grid(			row=3)
+Label(root, text="kmAlt:").grid(		row=4)
+Label(root, text="kmAlt:").grid(		row=4)
 Label(root, text="Serial COM").grid(	row=4, column=2)
 
-e1 = Entry(root, width=10).grid(row=1, column=1, padx=20, pady=5)
-e2 = Entry(root, width=10).grid(row=2, column=1, padx=20, pady=5)
-e3 = Entry(root, width=10).grid(row=3, column=1, padx=20, pady=5)
-e4 = Entry(root, width=10).grid(row=4, column=1, padx=20, pady=5)
-e5 = Entry(root, width=10).grid(row=5, column=1, padx=20, pady=5)
 
+e1 = Entry(root, width=10)
+e2 = Entry(root, width=10)
+e3 = Entry(root, width=10)
+e4 = Entry(root, width=10)
+e5 = Entry(root, width=10)
+
+e1.grid(row=1, column=1, padx=20, pady=5)
+e2.grid(row=2, column=1, padx=20, pady=5)
+e3.grid(row=3, column=1, padx=20, pady=5)
+e4.grid(row=4, column=1, padx=20, pady=5)
+e5.grid(row=5, column=2, padx=20, pady=5)
 
 #Joke
 Label(root, text="Author:BG6WRI").grid(	row=7, column=2)
