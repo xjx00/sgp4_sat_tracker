@@ -9,9 +9,6 @@ import GetLook
 import threading
 
 
-
-#line1,line2,Lat,Lon,kmAlt = GetUserData.get_user_data()
-
 def start():
 
 	Sat=e1.get()
