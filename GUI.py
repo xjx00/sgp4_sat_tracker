@@ -60,8 +60,8 @@ def fun_timer():
 		AZ_flash.set(str(AZ))
 		EL_flash.set(str(EL))
 
-#	if mode.get() == 2 or mode.get() ==3 :
-#		ser.write(AZ,EL)
+	if mode.get() == 2 or mode.get() ==3 :
+		ser.write(AZ,EL)
 
 	timer = threading.Timer(0, fun_timer)
 	timer.start()
