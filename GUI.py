@@ -19,12 +19,12 @@ def start():
 	kmAlt=float(e4.get())
 	
 
-#
-#	if mode.get() == 2 or mode.get() == 3 :
+
+	if mode.get() == 2 or mode.get() == 3 :
 #Linux
 #		ser=serial.Serial("COM"+e5.get(),9600,timeout=0.5)
 #Windows
-#		ser=serial.Serial("/dev/ttyUSB"+e5.get(),9600,timeout=0.5)
+		ser=serial.Serial("/dev/ttyUSB"+e5.get(),9600,timeout=0.5)
 
 
 

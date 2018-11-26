@@ -14,6 +14,16 @@ Follow the guide to enter the name of the Sat you want to track and enter your C
 
 You can change the code to make the data output by `print()` or `ser.write()` .
 
+## GUI Version
+In order to use this program in both Opration Systems  
+Some code shoule be changed by user.
+```
+$ sudo pip install sgp4 jdcal pyserial requests  
+$ python GUI.py  
+```
+Output Mode include Screen,Serial,or both of them.  
+You can choose it freely. 
+
 ## sat_tracker
 Use SGP4 model,HMC5883L and MMA8452Q on Raspberry Pi  
 ```
