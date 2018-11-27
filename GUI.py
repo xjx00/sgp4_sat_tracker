@@ -21,13 +21,13 @@ def start():
 	Lat=float(e2.get())
 	Lon=float(e3.get())
 	kmAlt=float(e4.get())
-	
+	global ser
 
 
 	if mode.get() == 2 or mode.get() == 3 :
-		if sys.platform == "linux2":
-			ser=serial.Serial("COM"+e5.get(),9600,timeout=0.5)
 		if sys.platform == "win32":
+			ser=serial.Serial("COM"+e5.get(),9600,timeout=0.5)
+		if sys.platform == "linux2":
 			ser=serial.Serial("/dev/ttyUSB"+e5.get(),9600,timeout=0.5)
 
 
@@ -63,9 +63,11 @@ def fun_timer():
 
 		AZ_flash.set(str(AZ))
 		EL_flash.set(str(EL))
+	global ser
 
 	if mode.get() == 2 or mode.get() ==3 :
-		ser.write(AZ,EL)
+		serial_str=str(AZ)+str(EL)
+		ser.write(serial_str)
 
 	if stop == 0:
 		timer = threading.Timer(0.1, fun_timer)
