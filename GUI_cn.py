@@ -33,8 +33,8 @@ def start():
 
 
 
-	print "正在追踪 "+str.upper(Sat)+"."
-	print "用户坐标 经度: "+str(Lon)+" 纬度: "+str(Lat)+" 高度(km) "+str(kmAlt)+"."
+	print u"正在追踪 "+str.upper(Sat)+"."
+	print u"用户坐标 经度: "+str(Lon)+u" 纬度: "+str(Lat)+u" 高度(km) "+str(kmAlt)+"."
 
 	line1,line2,Lat,Lon,kmAlt = GetUserData.get_user_data("gui",Sat,Lat,Lon,kmAlt)
 	GetSat.generate(line1,line2)
