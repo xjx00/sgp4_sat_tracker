@@ -11,26 +11,23 @@ import GetSat
 import GetLook
 import threading
 
-global stop
 
 def start():
-	global stop
-	stop = 0
 
 	Sat=e1.get()
 	Lon=float(e2.get())
 	Lat=float(e3.get())
 	kmAlt=float(e4.get())
 	
-
+	global AZ,EL
+	AZ=0
+	EL=0
 
 	if mode.get() == 2 or mode.get() == 3 :
 		if sys.platform == "linux2":
 			ser=serial.Serial("COM"+e5.get(),9600,timeout=0.5)
 		if sys.platform == "win32":
 			ser=serial.Serial("/dev/ttyUSB"+e5.get(),9600,timeout=0.5)
-
-
 
 
 	print "You are tracking "+str.upper(Sat)+"."
@@ -40,25 +37,22 @@ def start():
 	GetSat.generate(line1,line2)
 	GetLook.generate(Lat,Lon,kmAlt)
 
-	#global timer
-	timer = threading.Timer(0.1, fun_timer)
+	global timer
+	timer = threading.Timer(1, fun_timer)
 	timer.start()
 
 
 def stop():
-	global stop
-	stop = 1
+	if timer.is_alive():
+		timer.cancel()
 
 def update():
 	GetUserData.update("gui")
 
 def fun_timer():
 
-	print('{}'.format(threading.activeCount()))#进程数
-	eciSat = GetSat.get_eciSat()
-	tl = time.gmtime(time.time())
-	date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
-	AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
+	timer = threading.Timer(0.1, fun_timer)
+	timer.start()
 
 	if mode.get() == 1 or mode.get()==3 :
 
@@ -68,9 +62,13 @@ def fun_timer():
 	if mode.get() == 2 or mode.get() ==3 :
 		ser.write(AZ,EL)
 
-	if stop == 0:
-		timer = threading.Timer(0.1, fun_timer)
-		timer.start()
+	while True:
+		eciSat = GetSat.get_eciSat()
+		tl = time.gmtime(time.time())
+		date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
+		AZ,EL = GetLook.GetLook(date_now_julian,eciSat)
+	
+
 
 
 
@@ -108,12 +106,10 @@ e3 = Entry(root, width=10)
 e4 = Entry(root, width=10)
 e5 = Entry(root, width=10)
 
-'''
 e1.insert(0,"SO-50")
 e2.insert(0,"30")
 e3.insert(0,"30")
 e4.insert(0,"0")
-'''
 
 e1.grid(row=1, column=1, padx=20, pady=5)
 e2.grid(row=2, column=1, padx=20, pady=5)

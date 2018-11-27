@@ -24,6 +24,7 @@ def update(mode):
 
 #Sat Data
 def get_user_data(mode,Sat,Lat,Lon,kmAlt):
+
   file_list = ('amateur.txt','noaa.txt','stations.txt')
   
 
@@ -78,4 +79,5 @@ def get_user_data(mode,Sat,Lat,Lon,kmAlt):
       if ('line1' in dir())==False and i==len(file_list)-1:
         print "No date about this Sat.Please Enter The Correct Sat Name."
         name = str.upper(raw_input())
+        
   return line1,line2,Lat,Lon,kmAlt
