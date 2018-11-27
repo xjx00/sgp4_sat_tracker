@@ -33,8 +33,8 @@ def start():
 
 
 
-	print "You are tracking "+str.upper(Sat)+"."
-	print "You are at Lon: "+str(Lon)+" Lat: "+str(Lat)+" Altitude "+str(kmAlt)+"."
+	print "正在追踪 "+str.upper(Sat)+"."
+	print "用户坐标 经度: "+str(Lon)+" 纬度: "+str(Lat)+" 高度(km) "+str(kmAlt)+"."
 
 	line1,line2,Lat,Lon,kmAlt = GetUserData.get_user_data("gui",Sat,Lat,Lon,kmAlt)
 	GetSat.generate(line1,line2)
@@ -81,9 +81,9 @@ if sys.platform == "win32":
 
 
 #Button
-ButtonStart = Button(	root, text="Start",			command=start)
-ButtonStop = Button(	root, text="Stop",			command=stop)
-ButtonUpdate = Button(	root, text="Update Data",	command=update)
+ButtonStart = Button(	root, text="启动",			command=start)
+ButtonStop = Button(	root, text="停止",			command=stop)
+ButtonUpdate = Button(	root, text="更新星历",	command=update)
 #ButtonUpdate = Button(	root, text="Update Data",	command=lambda:update)
 
 
@@ -93,11 +93,11 @@ ButtonUpdate.grid(  row=0, column=2, padx=20, pady=5)
 
 
 #UserData
-Label(root, text="Sat Name:").grid(		row=1)
-Label(root, text="Lat:").grid(			row=2)
-Label(root, text="Lon:").grid(			row=3)
-Label(root, text="kmAlt:").grid(		row=4)
-Label(root, text="Serial COM").grid(	row=4, column=2)
+Label(root, text="目标卫星:").grid(		row=1)
+Label(root, text="纬度:").grid(			row=2)
+Label(root, text="经度:").grid(			row=3)
+Label(root, text="高度(km):").grid(		row=4)
+Label(root, text="串口号").grid(	row=4, column=2)
 
 
 e1 = Entry(root, width=10)
@@ -130,8 +130,8 @@ Label(root, textvariable=var).grid(	row=9, column=2)
 #Output
 
 #Scereen Ready
-Label(root,text="AZ").grid(row=5,column=0)
-Label(root,text="EL").grid(row=5,column=1)
+Label(root,text="方位角").grid(row=5,column=0)
+Label(root,text="仰角").grid(row=5,column=1)
 AZ_flash=IntVar()
 AZ_flash.set("")
 EL_flash=IntVar()
@@ -140,9 +140,9 @@ Entry(root, textvariable=AZ_flash, width=10).grid(row=6, column=0)
 Entry(root, textvariable=EL_flash, width=10).grid(row=6, column=1)
 
 #Mode Choose
-group = LabelFrame(root, text="Output Mode", padx=5, pady=5)
+group = LabelFrame(root, text="输出模式", padx=5, pady=5)
 group.grid(row=1, column=2, padx=10, pady=10, rowspan=3)
-LANGS = [("Screen", 1), ("Serial", 2),("Both", 3)]
+LANGS = [("屏幕", 1), ("串口", 2),("俩都", 3)]
 
 mode = IntVar()
 mode.set(1)
