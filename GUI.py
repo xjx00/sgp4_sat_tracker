@@ -18,8 +18,8 @@ def start():
 	stop = 0
 
 	Sat=e1.get()
-	Lon=float(e2.get())
-	Lat=float(e3.get())
+	Lat=float(e2.get())
+	Lon=float(e3.get())
 	kmAlt=float(e4.get())
 	
 
@@ -36,7 +36,7 @@ def start():
 	print "You are tracking "+str.upper(Sat)+"."
 	print "You are at Lon: "+str(Lon)+" Lat: "+str(Lat)+" Altitude "+str(kmAlt)+"."
 
-	line1,line2,Lat,Lon,kmAlt = GetUserData.get_user_data("gui",Sat,Lon,Lat,kmAlt)
+	line1,line2,Lat,Lon,kmAlt = GetUserData.get_user_data("gui",Sat,Lat,Lon,kmAlt)
 	GetSat.generate(line1,line2)
 	GetLook.generate(Lat,Lon,kmAlt)
 
@@ -54,7 +54,6 @@ def update():
 
 def fun_timer():
 
-	print('{}'.format(threading.activeCount()))#进程数
 	eciSat = GetSat.get_eciSat()
 	tl = time.gmtime(time.time())
 	date_now_julian = sum(jdcal.gcal2jd(tl.tm_year,tl.tm_mon,tl.tm_mday))+tl.tm_hour/24.0+tl.tm_min/24.0/60.0+tl.tm_sec/24.0/3600.0
@@ -95,8 +94,8 @@ ButtonUpdate.grid(  row=0, column=2, padx=20, pady=5)
 
 #UserData
 Label(root, text="Sat Name:").grid(		row=1)
-Label(root, text="Lon:").grid(			row=2)
-Label(root, text="Lat:").grid(			row=3)
+Label(root, text="Lat:").grid(			row=2)
+Label(root, text="Lon:").grid(			row=3)
 Label(root, text="kmAlt:").grid(		row=4)
 Label(root, text="kmAlt:").grid(		row=4)
 Label(root, text="Serial COM").grid(	row=4, column=2)
