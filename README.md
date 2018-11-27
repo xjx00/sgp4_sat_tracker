@@ -18,7 +18,7 @@ You can change the code to make the data output by `print()` or `ser.write()` .
 In order to use this program in both Opration Systems  
 Some code shoule be changed by user.
 ```
-$ sudo pip install sgp4 jdcal pyserial requests  
+$ sudo pip install sgp4 jdcal pyserial requests python-tk  
 $ python GUI.py  
 ```
 Output Mode include Screen,Serial,or both of them.  
